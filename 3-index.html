@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vaibhav Singh</title>
+<meta name="description" content="Vaibhav Singh builds software: reliability tooling for AI agents, per-customer AI cost tracking, TPU kernels and more. IIT Delhi, graduating May 2027.">
+<meta property="og:title" content="Vaibhav Singh">
+<meta property="og:description" content="MCP reliability tooling, per-customer AI cost tracking, TPU kernels. IIT Delhi, graduating May 2027.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://vaibhav11123.github.io/">
+<link rel="canonical" href="https://vaibhav11123.github.io/">
+<link rel="describedby" href="/llms.txt" type="text/plain">
+<link rel="alternate" type="text/markdown" href="/index.md">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf9f6; --ink:#1b1a17; --body:#43413b; --muted:#6f6d66; --faint:#a6a49c;
+  --line:#e8e6e0; --accent:#1447e6; --ok:#1a7f37;
+  --hl:#fde68a;
+}
+html[data-theme=dark]{
+  --bg:#171613; --ink:#eceae5; --body:#c9c7c0; --muted:#9c9a92; --faint:#66645e;
+  --line:#2b2925; --accent:#8fb0ff; --ok:#4ade80;
+  --hl:#854d0e;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:"Source Serif 4",Georgia,"Times New Roman",serif;font-size:17px;line-height:1.62;transition:background .25s ease,color .25s ease}
+.wrap{max-width:636px;margin:0 auto;padding:0 24px}
+a{color:inherit}
+::selection{background:var(--hl);color:#1b1a17}
+img{display:block;max-width:100%}
+.mono{font-family:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+
+/* staggered entrance (antfu mechanism) */
+@keyframes slide-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.enter>*{animation:.6s cubic-bezier(.4,0,.2,1) both slide-enter;animation-delay:calc(var(--stage,0)*80ms)}
+.enter>*:nth-child(1){--stage:1}.enter>*:nth-child(2){--stage:2}.enter>*:nth-child(3){--stage:3}
+.enter>*:nth-child(4){--stage:4}.enter>*:nth-child(5){--stage:5}.enter>*:nth-child(6){--stage:6}
+@media (prefers-reduced-motion:reduce){.enter>*{animation:none}.fig img{transition:none}}
+
+/* top bar */
+.top{display:flex;justify-content:space-between;align-items:center;padding:22px 0;font-family:"Geist Mono",ui-monospace,monospace;font-size:12.5px}
+.top .controls{display:flex;align-items:center;gap:16px}
+.view-toggle{display:flex;gap:6px;color:var(--faint)}
+.view-toggle button,.icon-btn{font:inherit;color:var(--faint);background:none;border:0;cursor:pointer;padding:0;transition:color .2s}
+.view-toggle button:hover,.icon-btn:hover{color:var(--ink)}
+.view-toggle button.on{color:var(--ink)}
+.icon-btn svg{display:block;width:15px;height:15px}
+
+/* hero */
+.hero{padding:76px 0 8px}
+h1{font-weight:600;font-size:52px;letter-spacing:-.01em;line-height:1.04}
+.hero p{margin-top:22px;color:var(--body);max-width:56ch}
+.hero p strong{color:var(--ink);font-weight:600}
+.now{margin-top:18px;font-family:"Geist Mono",ui-monospace,monospace;font-size:12.5px;color:var(--faint)}
+
+/* additions */
+.tabs{display:flex;align-items:center;flex-wrap:wrap;gap:6px 16px;font-family:"Geist Mono",ui-monospace,monospace;font-size:12.5px;color:var(--faint);margin-top:16px}
+.tabs button{font:inherit;color:var(--muted);background:none;border:0;cursor:pointer;padding:0;transition:color .2s}
+.tabs button:hover{color:var(--ink)}
+.tabs button.on{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.step .shot{margin-top:10px;border:1px solid #2c2c2c;border-radius:8px;overflow:hidden;background:#1e1e1e}
+.step .shot{aspect-ratio:1000/262}
+.step .shot.f{aspect-ratio:1000/235}
+.step .shot img{display:block;width:100%;height:auto;margin-top:-34%}
+.scap{margin-top:10px;font-size:15.5px;color:var(--muted);min-height:3.2em}
+.cx{margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:14px 10px 10px;background:var(--bg)}
+.cs{display:block;width:100%;height:auto;color:var(--ink)}
+.cs line,.cs polyline,.cs rect,.cs circle{stroke-width:3.2px}
+.cs [stroke-dasharray]{stroke-dasharray:9 7;stroke-width:2.2px}
+.cs .sn{fill:var(--muted);font-family:"Geist Mono",ui-monospace,monospace}
+.cs text{font-family:"Newsreader",Georgia,serif}
+.cx pre{display:none;margin:0;padding:6px 8px;font-family:"Geist Mono",ui-monospace,monospace;font-size:13px;line-height:1.75;color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere}
+.cx pre i{font-style:normal;color:var(--muted)}
+.kb-f i{width:82.75%!important;background:#4a4752!important}
+.fuse-input:not(:checked)~.fuse-stage .kb-u i{background:#8fb0ff}
+.fuse-input:checked~.fuse-stage .kb-f i{background:#8fb0ff!important}
+.fuse-input:not(:checked)~.fuse-stage .kb-f span,.fuse-input:not(:checked)~.fuse-stage .kb-f b{color:#8f8d87}
+.fuse-input:checked~.fuse-stage .kb-u span,.fuse-input:checked~.fuse-stage .kb-u b{color:#8f8d87}
+.fuse-input:not(:checked)~.fuse-stage .kb-note em{display:inline!important}
+.fuse-nums .nm{color:#7c7a75;font-size:11.5px;margin-top:6px}
+.fuse-nums .x{color:#4ade80}
+.fuse-nums .u,.fuse-nums .f{color:#8f8d87}
+.fuse-input:not(:checked)~.fuse-nums .u{color:#e8e6e1}
+.fuse-input:checked~.fuse-nums .f{color:#e8e6e1}
+.details pre.cmd{display:block;margin:6px 0;padding:8px 10px;border:1px solid var(--line);border-radius:4px;font-family:"Geist Mono",ui-monospace,monospace;font-size:12px;line-height:1.6;color:var(--ink);white-space:pre;overflow-x:auto}
+.details pre.cmd+*{}
+.circ .tabs button{color:var(--muted)}.circ .tabs button.on{color:var(--ink)}
+.ccap span{display:block}.ccap span+span{margin-top:6px}
+.circ.src .cx .cs{display:none}.circ.src .cx pre{display:block}
+.ccap{margin-top:10px;font-size:15.5px;color:var(--muted)}
+@media(max-width:600px){.cs text{font-size:30px}.cs .sn{font-size:24px}.cs text.pt{font-size:20px}.cs line,.cs polyline,.cs rect,.cs circle{stroke-width:4.2px}.cx{padding:10px 4px 6px}}
+@media(min-width:900px){.cx{margin-left:-40px;margin-right:-40px;padding:18px 24px 14px}}
+
+.sim{margin:10px 0 6px;border:1px solid var(--line);border-radius:6px;padding:14px 16px;font-family:"Geist Mono",ui-monospace,monospace;font-size:12.5px;color:var(--body)}
+.sim .sh{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;color:var(--muted)}
+.sim button{font:inherit;color:var(--muted);background:none;border:1px solid var(--line);border-radius:5px;padding:4px 10px;cursor:pointer;transition:color .2s,background .2s}
+.sim button:hover{color:var(--ink)}
+.sim .seg{display:flex}.sim .seg button{border-radius:0}.sim .seg button:first-child{border-radius:5px 0 0 5px;border-right:0}.sim .seg button:last-child{border-radius:0 5px 5px 0}
+.sim .seg button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.sim .line{margin-top:12px;color:var(--ink)}
+.sim .bar{margin-top:8px;height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.sim .bar i{display:block;height:100%;width:0;background:var(--muted);transition:width .35s,background .3s}
+.sim.warn .bar i{background:#b7791f}.sim.exceeded .bar i{background:#c2410c}
+.sim .acts{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}
+.sim .acts button{color:var(--ink)}
+.sim .log{margin-top:12px;min-height:5.4em;color:var(--muted);line-height:1.6}
+.sim .log div:last-child{color:var(--ink)}
+.sim .log .err{color:#c2410c}
+.sim .fine{margin-top:10px;font-size:12px;color:var(--muted);line-height:1.6}
+.sim .tag{white-space:nowrap;display:inline-block;font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:1px 6px;margin-left:8px}
+.sim .chk{margin-top:4px;color:var(--muted);font-size:12px}
+.sim .fine a{color:var(--muted)}
+.contact{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:26px;font-family:"Geist Mono",ui-monospace,monospace;font-size:12.5px;color:var(--muted)}
+.contact a,.contact button{font:inherit;color:var(--muted);background:none;border:0;cursor:pointer;padding:0;transition:color .2s;position:relative;text-decoration:none}
+.contact a:hover,.contact button:hover{color:var(--ink)}
+.contact .avail{color:var(--ok)}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ok);margin-right:6px;vertical-align:1px}
+.copied{position:absolute;left:0;top:-19px;font-size:11px;color:var(--ok);opacity:0;transition:opacity .2s}
+.copied.show{opacity:1}
+
+/* sections */
+section{margin-top:72px}
+.label{font-family:"Geist Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);display:flex;align-items:baseline;justify-content:space-between}
+.label .hint{letter-spacing:0;text-transform:none;font-size:11.5px}
+
+/* numbered project entries */
+.plist{list-style:none;margin-top:10px}
+.p{display:grid;grid-template-columns:34px 1fr;column-gap:14px;padding:30px 0 32px;border-bottom:1px solid var(--line)}
+.p:last-child{border-bottom:0}
+.idx{font-family:"Geist Mono",ui-monospace,monospace;font-size:12px;color:var(--faint);padding-top:7px}
+.pbody{min-width:0}
+.ph{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+h3{font-weight:600;font-size:20px;line-height:1.3}
+h3 a{text-decoration:none}
+h3 a:hover{text-decoration:underline;text-underline-offset:3px}
+.when{font-family:"Geist Mono",ui-monospace,monospace;font-size:12px;color:var(--faint);white-space:nowrap}
+.px{margin-top:8px;color:var(--body);font-size:16px}
+.px strong{color:var(--ink);font-weight:600}
+.pl{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px 18px;font-family:"Geist Mono",ui-monospace,monospace;font-size:12.5px;color:var(--muted)}
+.pl a{text-decoration:none;transition:color .2s}
+.pl a:hover{color:var(--ink)}
+.details-btn{font-family:"Geist Mono",ui-monospace,monospace;font-size:12.5px;color:var(--muted);background:none;border:0;cursor:pointer;padding:0;transition:color .2s}
+.details-btn:hover{color:var(--ink)}
+.details{display:none;margin:12px 0 2px;font-size:15px;color:var(--muted);border-left:2px solid var(--line);padding-left:14px}
+.details.open{display:block;animation:.4s ease slide-enter}
+.details li{margin:5px 0;list-style:none}
+.details li::before{content:"– ";color:var(--faint)}
+
+/* bare figures inside the column */
+.fig{margin-top:16px}
+.fig img,.fig video{width:100%;border:1px solid var(--line);border-radius:6px;cursor:zoom-in}
+.figcap{margin-top:8px;font-family:"Geist Mono",ui-monospace,monospace;font-size:11.5px;color:var(--faint);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.figcap .tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);border-radius:4px;padding:1px 6px;flex-shrink:0}
+
+/* composed project covers */
+.figcover{cursor:pointer}
+.figcover:focus-visible{outline:2px solid #5b7cff;outline-offset:3px}
+.cover{display:block;width:100%;height:auto;border-radius:8px}
+.cover text{font-family:"Geist Mono",ui-monospace,monospace}
+.cv-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.cv-small{font-size:10.5px;letter-spacing:.02em}
+@keyframes halo{0%{opacity:.75;r:8}70%{opacity:0;r:20}100%{opacity:0;r:20}}
+.halo{animation:halo 2.4s ease-out infinite}
+.details li.proof{margin:14px 0 4px}
+.details li.proof::before{content:none}
+.fuse-img{width:100%;height:auto;display:block;border-radius:6px}
+.fuse-stage{display:block!important}
+.fuse-input:not(:checked)~.fuse-stage .g-fu{display:none}
+.fuse-input:checked~.fuse-stage .g-un{display:none}
+@media (prefers-reduced-motion:reduce){.halo{animation:none}}
+
+
+/* number covers */
+
+.rc{position:relative;overflow:hidden;border-radius:8px;background:#f6f4ef;border:1px solid rgba(128,128,128,.25)}
+.rc img{display:block;width:100%;height:auto}
+.rc-tag{position:absolute;left:10px;bottom:10px;z-index:2;background:rgba(18,17,20,.82);color:#e8e6e1;font-family:"Geist Mono",monospace;font-size:11px;letter-spacing:.02em;padding:4px 8px;border-radius:4px}
+.rc-sw{display:none}@media(max-width:560px){.rc-sw{display:inline}.rc-ac .rc-tag{position:static;display:block;border-radius:0}}
+.rc-ac .rc-sc{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+.rc-wd{background:#1e1e1e;border-color:#2c2c2c}
+.rc-wd video{display:block;width:100%;height:auto}
+.rc-wd .rc-tag{position:static;display:block;border-radius:0}
+.rc-wd .wd-vm{display:none}
+@media(max-width:560px){.rc-wd .wd-vd{display:none}.rc-wd .wd-vm{display:block;max-width:420px;margin:0 auto}}
+.kb{display:grid;grid-template-columns:64px 1fr 76px;align-items:center;gap:10px;margin:7px 0}
+.kb i{height:22px;background:#4a4752;border-radius:3px;display:block;width:100%;transition:width .5s cubic-bezier(.3,.7,.2,1),background .3s}
+.kb b{font-weight:400;text-align:right;color:#d6d4d0}
+.kb span{color:#8f8d87}
+.fuse-input:checked~.fuse-stage .kb-f i{width:82.75%;background:#8fb0ff}
+.fuse-input:not(:checked)~.fuse-stage .kb-f i{background:#4a4752}
+.kb-v::before{content:"0.400 ms"}.fuse-input:checked~.fuse-stage .kb-v::before{content:"0.331 ms";color:#4ade80}
+.kb-note{color:#7c7a75;font-size:11.5px;margin-top:6px}
+.kb-note em{font-style:normal;color:#4ade80}
+.fuse-input:not(:checked)~.fuse-stage .kb-note em{display:none}
+/* interactive kernel figure */
+.fuse{margin-top:16px;background:#121114;border:1px solid #26242a;border-radius:8px;color:#d6d4d0;font-family:"Geist Mono",ui-monospace,monospace;font-size:12.5px;padding:16px 18px;cursor:default}
+.fuse-input{position:absolute;opacity:0;pointer-events:none}
+.fuse-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.fuse-title{color:#7c7a75;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase}
+.fuse-btns{display:flex;border:1px solid #2e2c33;border-radius:6px;overflow:hidden;flex-shrink:0}
+.fuse-btns label{padding:4px 12px;cursor:pointer;color:#8f8d87;transition:background .2s,color .2s;font-size:12px;white-space:nowrap}
+.fuse-input:focus-visible~.fuse-bar .fuse-btns{outline:2px solid #8fb0ff;outline-offset:2px}
+.fuse-off{border-right:1px solid #2e2c33}
+.fuse-input:not(:checked)~.fuse-bar .fuse-off,.fuse-input:checked~.fuse-bar .fuse-on{background:#e8e6e1;color:#121114}
+.fuse-stage{margin-top:14px;display:flex;align-items:center;flex-wrap:wrap;gap:8px;min-height:34px}
+.fuse .node{border:1px solid #3a3841;border-radius:6px;padding:5px 10px;color:#d6d4d0;background:#18171b;white-space:nowrap}
+.fuse .arr{color:#7c7a75;white-space:nowrap}
+.fuse .arr.wrap{white-space:normal;min-width:0;flex:1 1 200px}
+.fuse-un{display:contents}
+.fuse-fu{display:none;align-items:center;gap:8px;flex-wrap:wrap}
+.fuse-fu .node{border-color:#8fb0ff;color:#b9ceff}
+.fuse-input:checked~.fuse-stage .fuse-un{display:none}
+.fuse-input:checked~.fuse-stage .fuse-fu{display:flex}
+.fuse-nums{margin-top:14px;line-height:1.8}
+.fuse-nums .n-fu{display:none;color:#4ade80}
+.fuse-nums .n-un{color:#d6d4d0}
+.fuse-input:checked~.fuse-nums .n-un{display:none}
+.fuse-input:checked~.fuse-nums .n-fu{display:inline}
+.fuse-src{margin-top:10px;color:#7c7a75;font-size:11.5px}
+.fuse-src .tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;border:1px solid #2e2c33;border-radius:4px;padding:1px 6px}
+
+/* quiet text filters */
+.filters{margin-top:20px;font-family:"Geist Mono",ui-monospace,monospace;font-size:12.5px;color:var(--faint)}
+.filters button{font:inherit;color:var(--muted);background:none;border:0;cursor:pointer;padding:0;transition:color .2s}
+.filters button:hover{color:var(--ink)}
+.filters button.on{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.filters .sep{color:var(--faint)}
+
+/* archive rows */
+.also{list-style:none;margin-top:6px}
+.also .row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:13px 2px;border-bottom:1px solid var(--line)}
+.also .row:last-child{border-bottom:0}
+.also .row.hide{display:none}
+.also .co{font-weight:600;font-size:16px}
+.also .co a{text-decoration:none}
+.also .co a:hover{text-decoration:underline;text-underline-offset:3px}
+.also .role{color:var(--muted);font-size:14.5px;margin-left:8px}
+.also .d{font-family:"Geist Mono",ui-monospace,monospace;font-size:12px;color:var(--faint);white-space:nowrap}
+
+/* writing */
+.writing .fig img{cursor:zoom-in}
+.wtitle{font-size:20px;font-weight:600}
+.wtitle a{text-decoration:none}
+.wtitle a:hover{text-decoration:underline;text-underline-offset:3px}
+
+/* footer */
+footer{margin-top:88px;border-top:1px solid var(--line);padding:26px 0 40px;font-family:"Geist Mono",ui-monospace,monospace;font-size:12.5px;color:var(--muted)}
+footer .recog{color:var(--faint);line-height:1.9;margin-bottom:18px}
+footer .bar{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+footer nav{display:flex;gap:16px}
+footer a{text-decoration:none}
+footer a:hover{color:var(--ink)}
+.sysline{margin-top:14px;font-size:11.5px;color:var(--faint)}
+
+/* lightbox */
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.82);display:none;align-items:center;justify-content:center;z-index:50;cursor:zoom-out;padding:32px}
+.lightbox.open{display:flex;animation:.25s both fadein}
+.lightbox img{max-width:92vw;max-height:88vh;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+
+/* agent view */
+.agent-doc{display:none}
+html[data-view=agent] .agent-doc{display:block}
+.agent-doc pre{white-space:pre-wrap;word-break:break-word;font-family:"Geist Mono",ui-monospace,monospace;font-size:12.5px;line-height:1.7;color:var(--body);margin-top:8px}
+.agent-note{margin-top:20px;font-family:"Geist Mono",ui-monospace,monospace;font-size:11.5px;color:var(--faint)}
+@media (max-width:640px){.cv-small{font-size:14px}.cv-label{font-size:12.5px;letter-spacing:.1em}}
+.agent-only{display:none}
+html[data-view=agent] body{font-family:"Geist Mono",ui-monospace,monospace;font-size:13px;line-height:1.65}
+html[data-view=agent] h1{font-family:"Geist Mono",ui-monospace,monospace;font-size:22px;font-weight:500}
+html[data-view=agent] .human-only{display:none!important}
+html[data-view=agent] .agent-only{display:inline;color:var(--faint);word-break:break-all}
+html[data-view=agent] .agent-url::before{content:" "}
+
+@media (max-width:640px){
+  h1{font-size:38px}
+  .hero{padding:52px 0 4px}
+  section{margin-top:56px}
+  .p{grid-template-columns:1fr;padding:24px 0 26px}
+  .idx{display:none}
+  .also .row{flex-direction:column;gap:1px}
+  .fuse{font-size:11.5px;padding:14px}
+  .fuse-bar{flex-direction:column;align-items:flex-start;gap:8px}
+}
+</style>
+<link rel="icon" href="data:,">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <span class="wordmark" id="wordmark">vaibhav</span>
+    <div class="controls">
+      <div class="view-toggle" role="group" aria-label="view">
+        <button id="v-human" class="on" type="button">human</button><span>/</span><button id="v-agent" type="button">agent</button>
+      </div>
+      <button id="theme" class="icon-btn" type="button" aria-label="toggle theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="human-only">
+    <div class="hero enter">
+      <h1>vaibhav singh</h1>
+      <p>i'm a final-year engineering student at <a href="https://commons.wikimedia.org/wiki/Campaign:GLAM_IIT_Delhi_Photography_Contest" style="text-underline-offset:3px">iit delhi</a>. i love building things.</p>
+      <p>earlier this year i started the <a href="https://www.linkedin.com/posts/vaibhav-singh-vs23_what-the-last-few-weeks-building-claude-activity-7449841112854306816-1rH1" style="text-underline-offset:3px">claude builder club</a> on campus. the first session drew 500 people; it's grown to more than 3,000 members since.</p>
+      <p>sometimes i write, on <a href="/a-machine-does-not-contain-its-future/" style="text-underline-offset:3px">my blog</a>. philosophy plus tech, mostly.</p>
+      <div class="contact">
+        <span class="avail"><span class="dot"></span>open to 2027 roles</span>
+        <button id="copymail" type="button">vaibhavsinghiitd28@gmail.com<span class="copied" id="copiedtag">copied</span></button>
+        <a href="tel:+918130443870">+91 81304 43870</a>
+        <a href="/assets/resume.pdf">cv ↓</a>
+        <a href="/photos/">photographs</a>
+        <a href="/mechanical-pencil/">mechanical pencil</a>
+        <a href="https://github.com/vaibhav11123">github<span class="agent-only agent-url">https://github.com/vaibhav11123</span></a>
+        <a href="https://x.com/AyoVaibhav">x<span class="agent-only agent-url">https://x.com/AyoVaibhav</span></a>
+        <a href="https://www.linkedin.com/in/vaibhav-singh-vs23/">linkedin<span class="agent-only agent-url">https://www.linkedin.com/in/vaibhav-singh-vs23/</span></a>
+      </div>
+    </div>
+
+    <section class="enter">
+      <div class="label">projects<span class="hint">click a figure to look closer</span></div>
+      <ol class="plist">
+
+        <li class="p">
+          <span class="idx">01</span>
+          <div class="pbody">
+            <div class="ph"><h3><a href="https://github.com/vaibhav11123/mcp-watchdog">mcp watchdog</a></h3><span class="when">2026</span></div>
+            <p class="px">an mcp server can fail without your editor noticing; the tools it gave you just stop answering. watchdog probes every server you've configured and shows their health in the status bar. when one breaks, its doctor walks you through the fix. 100+ developers use it. open vsx counts around 4,000 downloads.</p>
+            <div class="step" id="wdstep">
+              <div class="tabs"><button class="on" type="button" data-i="0">healthy</button><button type="button" data-i="1">search-api fails</button></div>
+              <div class="shot"><img id="wdimg" src="assets/1-wd-seq-healthy.webp" width="1000" height="712" alt="MCP Watchdog overview in VS Code with all three servers healthy"></div>
+              <p class="scap" id="wdcap">three servers answered the probe.</p>
+              <p class="scap" style="margin-top:2px;font-family:'Geist Mono',ui-monospace,monospace;font-size:12px;color:var(--faint)">screen capture in vs code, test servers, one made to fail</p>
+            </div>
+            <div class="pl">
+              <a href="https://github.com/vaibhav11123/mcp-watchdog">github ↗<span class="agent-only agent-url">https://github.com/vaibhav11123/mcp-watchdog</span></a>
+              <a href="https://open-vsx.org/extension/mcp-watchdog/mcp-watchdog">open vsx ↗<span class="agent-only agent-url">https://open-vsx.org/extension/mcp-watchdog/mcp-watchdog</span></a>
+              <button class="details-btn" data-details="d-watchdog" type="button">details +</button>
+            </div>
+            <ul class="details" id="d-watchdog">
+              <li>probes every server each cycle: process state, transport, protocol negotiation, tool discovery, config, auth</li>
+              <li>structured doctor workflow with host-specific fixes, recovery verification and redacted incident reports</li>
+              <li>182 unit tests, strict typescript; published on open vsx and the vs marketplace</li>
+                          </ul>
+          </div>
+        </li>
+
+        <li class="p">
+          <span class="idx">02</span>
+          <div class="pbody">
+            <div class="ph"><h3><a href="https://github.com/vaibhav11123/jax-transformer-vlad">jax moe kernel</a></h3><span class="when">2026</span></div>
+            <p class="px">1.21x faster for the projection step and 1.09x for the full forward pass, as timed on a tpu v5e. a fused mixture-of-experts kernel in jax pallas, written for a tpu v5e as part of vlad feinberg's frontier-lab roadmap. fusing the projections keeps the intermediate on-chip instead of round-tripping through memory. the repo also holds a digit-addition transformer built from scratch, scaling-law sweeps, and recorded walkthroughs of the core build. flip the toggle to see what changes.</p>
+                        <div class="fuse">
+              <input type="checkbox" id="fuse-tgl" class="fuse-input" aria-label="toggle between unfused and fused kernel diagram">
+              <div class="fuse-bar">
+                <span class="fuse-title">moe expert block · try it</span>
+                <span class="fuse-btns"><label for="fuse-tgl" class="fuse-off">unfused</label><label for="fuse-tgl" class="fuse-on">fused</label></span>
+              </div>
+              <div class="fuse-stage"><div class="kb kb-u"><span>unfused</span><i></i><b>0.400 ms</b></div><div class="kb kb-f"><span>fused</span><i></i><b>0.331 ms</b></div><div class="kb-note">projection step, bars to scale<em> &middot; 1.21x</em></div></div>
+              <div class="fuse-nums">
+                <div class="nm">projection (kernel only)</div>
+                <div><span class="u">unfused 0.400 ms</span> &middot; <span class="f">fused 0.331 ms</span> &middot; <span class="x">1.21x</span></div>
+                <div class="nm">full forward (includes sort and restore)</div>
+                <div><span class="u">unfused 0.432 ms</span> &middot; <span class="f">fused 0.396 ms</span> &middot; <span class="x">1.09x</span></div>
+              </div>
+              <div class="fuse-src">numbers are real: recorded on tpu v5e, median of 50 runs, from the benchmarks on my cv</div>
+            </div>
+<div class="pl">
+              <a href="https://github.com/vaibhav11123/jax-transformer-vlad">github ↗<span class="agent-only agent-url">https://github.com/vaibhav11123/jax-transformer-vlad</span></a>
+              <a href="https://www.youtube.com/playlist?list=PLQHXISqfzAx8">screen recordings ↗<span class="agent-only agent-url">https://www.youtube.com/playlist?list=PLQHXISqfzAx8</span></a>
+              <a href="https://youtu.be/ji2_hHj-UI4">scaling walkthrough ↗<span class="agent-only agent-url">https://youtu.be/ji2_hHj-UI4</span></a>
+              <button class="details-btn" data-details="d-jax" type="button">details +</button>
+            </div>
+            <ul class="details" id="d-jax">
+              <li>timed on a colab tpu v5e with jax 0.11.2: 8,192 tokens, 256 experts, bf16, median of 50 runs after 10 warm-up runs, against jax.lax.ragged_dot</li>
+              <li>the repo's requirements.txt pins jax 0.10.2 for the training code, so the benchmark needs its own 0.11.2 environment</li>
+              <li>to run it, from the repo:<pre class="cmd">python -m moe_pallas.benchmark \
+  --kernel both --bt 32 --reuse 1 --figure</pre>a new run adds results, it does not recreate the recorded one</li>
+              <li>fusing helps at both scopes. these timings alone don't explain why the saving in milliseconds differs between them. a profile is needed to explain the difference.</li>
+            </ul>
+            
+          </div>
+        </li>
+        <li class="p">
+          <span class="idx">03</span>
+          <div class="pbody">
+            <div class="ph"><h3><a href="https://github.com/vaibhav11123/agentcogs">agentcogs</a></h3><span class="when">2026</span></div>
+            <p class="px">agentcogs shows an ai company what each of its customers costs. it tags model calls with a customer id, so spending, budgets and margin show up per account. it's a python sdk on pypi with 1,800+ downloads, and the live demo runs on fictional data.</p>
+            <figure class="figcover" data-cover="d-agentcogs" title="details hold the live-demo screenshot"><div class="rc rc-ac"><div class="rc-sc"><picture><source media="(max-width:560px)" srcset="assets/acg-customers-m.jpg"><img src="assets/acg-customers.jpg" alt="AgentCOGS customer view of its demo workspace: per-customer AI cost, fee, margin bars and budget status" width="1500" height="1009"></picture></div><span class="rc-tag">live demo &middot; fictional sample data<span class="rc-sw"> &middot; middle columns trimmed</span></span></div></figure>
+            <div class="pl">
+              <a href="https://github.com/vaibhav11123/agentcogs">github ↗<span class="agent-only agent-url">https://github.com/vaibhav11123/agentcogs</span></a>
+              <a href="https://pypi.org/project/agentcogs/">pypi ↗<span class="agent-only agent-url">https://pypi.org/project/agentcogs/</span></a>
+              <a href="https://agentcogs.vercel.app/">live demo ↗<span class="agent-only agent-url">https://agentcogs.vercel.app/</span></a>
+              <button class="details-btn" data-details="d-agentcogs" type="button">try the $1 budget +</button>
+            </div>
+            <ul class="details" id="d-agentcogs">
+              <li>per-customer cost attribution, monthly budgets and contribution margin per account</li>
+              <li>captures usage from openai and anthropic client calls, priced against a price book</li>
+              <li>the live demo runs on fictional data; self-host for real customers</li>
+              <li>public pypi counters include ci traffic</li>
+              <li class="simli"><div class="sim" id="acgsim" aria-label="simulation of the agentcogs budget check">
+                <div class="sh"><span>try the budget check<span class="tag">simulation · made-up costs</span></span><span class="seg" role="group" aria-label="enforcement"><button type="button" data-enf="0" class="on">enforcement off</button><button type="button" data-enf="1">on</button></span></div>
+                <div class="line" id="simline"></div>
+                <div class="chk" id="simchk"></div>
+                <div class="bar"><i id="simbar"></i></div>
+                <div class="acts"><button type="button" data-cost="5">small call $0.05</button><button type="button" data-cost="35">large call $0.35</button><button type="button" id="simreset">reset</button></div>
+                <div class="log" id="simlog" aria-live="polite"></div>
+                <p class="fine">simulation with made-up costs: no real model calls, no charges, nothing is sent anywhere. with enforcement on, a run is refused once spent plus a hold reaches the budget. the hold is the median cost of the last runs (zero until there are three), so a run can be refused before spend shows $1.00. it follows the check before each run in <a href="https://github.com/vaibhav11123/agentcogs/blob/main/src/agentcogs/budget.py">budget.py</a> and the status rule in <a href="https://github.com/vaibhav11123/agentcogs/blob/main/backend/app/services/budget_hold.py">budget_hold.py</a>. calls running at the same time, or a failed budget lookup, behave differently.</p>
+              </div></li>
+              <li class="proof"><figure class="fig"><img src="assets/acg-cover.png" data-zoom alt="AgentCOGS demo dashboard: AI margin 74.6 percent in green, fee minus AI cost, cost-over-time chart, and a red alert that one customer ends the month deep negative, on fictional sample data"><figcaption class="figcap"><span class="tag">sample demo data</span>the live demo on fictional data</figcaption></figure></li>
+            </ul>
+          </div>
+        </li>
+
+      </ol>
+
+      <div class="label" style="margin-top:56px">everything else<span class="hint">the rest, filterable</span></div>
+      <div class="filters" id="filters">
+        <button class="on" data-f="all" type="button">all</button><span class="sep"> / </span><button data-f="ai" type="button">ai + infra</button><span class="sep"> / </span><button data-f="tools" type="button">dev tools</button><span class="sep"> / </span><button data-f="data" type="button">data + ml</button><span class="sep"> / </span><button data-f="web" type="button">web</button><span class="sep"> / </span><button data-f="exp" type="button">experiments</button>
+      </div>
+      <ol class="also" id="archive">
+        <li class="row" data-tags="ai"><span><span class="co">wardyn</span><span class="role">llm governance control plane · client project · private repo</span></span><span class="d">2026</span></li>
+        <li class="row" data-tags="data web"><span><span class="co"><a href="https://github.com/vaibhav11123/Hublet-ALPS">hublet / disa</a></span><span class="role">real-estate price analytics: scraping, ml models, resnet-50 on listing photos, flask api + next.js</span></span><span class="d">2025 – 26</span></li>
+        <li class="row" data-tags="tools ai"><span><span class="co"><a href="https://github.com/vaibhav11123/claude-knowledge-vault">claude knowledge vault</a></span><span class="role">turns claude.ai exports into an entity-linked obsidian vault</span></span><span class="d">2026</span></li>
+        <li class="row" data-tags="web"><span><span class="co"><a href="https://github.com/vaibhav11123/eterna-meme-coin-aggregator">eterna</a></span><span class="role">real-time solana meme-coin aggregator, websocket under 200ms median · <a href="https://youtu.be/G21dH75YuZU">demo video</a></span></span><span class="d">2025</span></li>
+        <li class="row" data-tags="ai tools"><span><span class="co"><a href="https://github.com/vaibhav11123/coldemail-outreach-system">cold outreach system</a></span><span class="role">cold-email infrastructure with strict data normalization</span></span><span class="d">2026</span></li>
+        <li class="row" data-tags="data"><span><span class="co"><a href="https://github.com/vaibhav11123/noida-pg-pipeline">pg pipeline</a></span><span class="role">4-phase etl: exa neural search + google maps grid scraping for pg listings</span></span><span class="d">2026</span></li>
+        <li class="row" data-tags="exp web"><span><span class="co"><a href="https://github.com/vaibhav11123/disputepoint-ship">disputepoint</a></span><span class="role">delhi waterlogging incident coordination · wemakedevs environmental hacks</span></span><span class="d">2026</span></li>
+        <li class="row" data-tags="exp tools"><span><span class="co"><a href="https://github.com/vaibhav11123/mcl431-circuits">sequence circuit</a></span><span class="role">yaml spec in, exam-style hydraulic / electropneumatic sheets out · iit delhi course</span></span><span class="d">2026</span></li>
+        <li class="row" data-tags="data"><span><span class="co"><a href="https://github.com/vaibhav11123/ipl-analytics">ipl analytics</a></span><span class="role">t20 cricket analysis notebooks</span></span><span class="d">2025</span></li>
+        <li class="row" data-tags="data"><span><span class="co"><a href="https://github.com/vaibhav11123/Loan-Default-Modeling">loan default modeling</a></span><span class="role">predicting loan defaults, kaggle dataset</span></span><span class="d">2025</span></li>
+        <li class="row" data-tags="exp"><span><span class="co">rivrank</span><span class="role">graph-based river ranking · b.tech research · private repo</span></span><span class="d">2026 –</span></li>
+      </ol>
+    </section>
+
+    <section class="enter writing">
+      <div class="label">writing<span class="hint">my blog</span></div>
+      <ol class="plist">
+        <li class="p">
+          <span class="idx">01</span>
+          <div class="pbody">
+            <div class="ph"><h3 class="wtitle"><a href="/a-machine-does-not-contain-its-future/">a machine does not contain its future</a></h3><span class="when">nov 2026</span></div>
+            <p class="px">hero of alexandria built a steam sphere two thousand years before the steam engine mattered. on hindsight, and how we read ai capability.</p>
+            <figure class="fig"><a href="/a-machine-does-not-contain-its-future/"><img src="assets/poster.svg" alt="Cover of A Machine Does Not Contain Its Future"></a></figure>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="enter">
+      <div class="label">work</div>
+      <ol class="also" style="margin-top:12px">
+        <li class="row"><span><span class="co"><a href="https://claude.com/programs/campus">anthropic</a></span><span class="role">claude student ambassador · founded the <a href="https://www.linkedin.com/posts/vaibhav-singh-vs23_what-the-last-few-weeks-building-claude-activity-7449841112854306816-1rH1">claude builder club</a> at iit delhi · 3,000+ members</span></span><span class="d">feb 2026 –</span></li>
+        <li class="row"><span><span class="co"><a href="https://www.ey.com/en_in/careers/global-delivery-services">ey gds</a></span><span class="role">ai &amp; automation intern · ppo</span></span><span class="d">may – jul 2026</span></li>
+        <li class="row"><span><span class="co"><a href="https://www.hcltech.com/about-us">hcltech</a></span><span class="role">systems engineering intern</span></span><span class="d">oct – dec 2025</span></li>
+        <li class="row"><span><span class="co"><a href="https://linkedin.com/company/searchlook">searchlook</a></span><span class="role">software engineering intern</span></span><span class="d">aug – sep 2025</span></li>
+        <li class="row"><span><span class="co"><a href="https://github.com/vaibhav11123/Hublet-ALPS">hublet alps</a></span><span class="role">lead ml engineer, student pi</span></span><span class="d">apr – dec 2025</span></li>
+        <li class="row"><span><span class="co"><a href="https://www.sinciitd.in/">sinc, iit delhi</a></span><span class="role">co-overall coordinator</span></span><span class="d">jun 2026 –</span></li>
+      </ol>
+    </section>
+  </main>
+  <section class="agent-doc" id="agent-doc" aria-label="plain-text version"><pre># Vaibhav Singh
+
+&gt; Final-year B.Tech student in Production and Industrial Engineering at IIT Delhi (graduating May 2027), based in New Delhi, India. Builds software across tooling, ML and systems. Open to 2027 new-grad engineering roles.
+
+- Name: Vaibhav Singh
+- Location: New Delhi, India (IST, UTC+5:30)
+- Education: B.Tech, Production and Industrial Engineering, IIT Delhi, expected May 2027
+- Looking for: new-grad engineering roles starting 2027
+- Contact: vaibhavsinghiitd28@gmail.com, +91 81304 43870
+- Resume (PDF): https://vaibhav11123.github.io/assets/resume.pdf
+- Resume (text): https://vaibhav11123.github.io/resume.txt
+
+## What he can help with
+
+- Product and backend engineering (Python, TypeScript): shipped and maintained VS Code and PyPI packages with public users (MCP Watchdog, AgentCOGS), a Flask inference API and a Next.js front end (Hublet / DISA), a MongoDB-backed job queue (Searchlook), a real-time WebSocket aggregator (Eterna).
+- Applied AI and agent systems: a three-agent LangGraph RAG system over 35+ COBOL programs with RAGAS evaluation (EY GDS); per-customer AI cost and margin tracking from model-call usage (AgentCOGS); an LLM governance control plane with policy, entitlements and audit logging (Wardyn).
+- Reliability, testing and developer tools: live probing of MCP servers with a verified-fix workflow and 182 unit tests (MCP Watchdog); incident investigation and automated diagnostics on Linux (HCLTech); a 731-test suite and CI for Wardyn.
+- ML and ML systems: a fused mixture-of-experts kernel in JAX Pallas on a TPU v5e with measured speedups; a from-scratch transformer and Chinchilla-style scaling sweeps in JAX; real-estate price models with ResNet-50 features; a graph ranking model over river networks (RivRank).
+- Data and pipelines: scraping, cleaning and ETL (Hublet / DISA, PG pipeline); Exa neural search plus Google Maps grid scraping; entity-linked knowledge graphs from chat exports.
+- Community, ownership and communication: founded the Claude Builder Club at IIT Delhi (500 at the first session, 3,000+ members now), first Claude Student Ambassador in Asia, co-overall coordinator at SINC IIT Delhi, writes essays on his blog, led a Ministry of Education-backed ML project as student PI.
+- Operations and industrial background: B.Tech in Production and Industrial Engineering; wrote YAML-to-drawing tooling for hydraulic and electropneumatic circuit sheets (Sequence Circuit) for an IIT Delhi course.
+
+## Projects (featured)
+
+- [MCP Watchdog](https://github.com/vaibhav11123/mcp-watchdog): VS Code / Cursor extension that independently probes every MCP server you approved each cycle (process state, transport, protocol negotiation, tool discovery, config, auth), shows health in the status bar and names the cause when one goes quiet while the editor still lists its tools. A doctor workflow gives host-specific fixes, verifies recovery ("Verified" on the Overview) and produces redacted incident reports. TypeScript, 182 unit tests, MIT licence, built and maintained by him (113 of the repo's contributions). Works in Cursor, Windsurf, VS Code and VSCodium. Published on Open VSX (https://open-vsx.org/extension/mcp-watchdog/mcp-watchdog) and the VS Code Marketplace. 100+ developers use it; around 4,000 downloads on Open VSX. The site shows one recorded session in two steps, healthy then search-api failing on test servers: it names the cause (the process closed the connection) and reports the editor's own session as unknown. Shows: shipping a developer tool to real users, reliability engineering, product positioning.
+- [AgentCOGS](https://github.com/vaibhav11123/agentcogs): open-source Python SDK that tags model calls with a customer id so AI spend, budgets and contribution margin show up per account, so a B2B AI company can see which customers stop making money before the month ends. Captures usage from OpenAI and Anthropic client calls, prices them against a price book, enforces budget caps, and comes with a self-hosted dashboard. On PyPI (https://pypi.org/project/agentcogs/): 1,800+ downloads. Live demo (https://agentcogs.vercel.app/) runs on fictional sample data. The site has a labeled simulation (made-up costs, no real calls) of the budget check: enforcement is off by default; when on, run() raises CustomerBudgetExceededError before the call once spent plus a hold of the typical recent run cost reaches the budget. Shows: SDK design, unit economics, Python packaging and distribution.
+- [JAX MoE kernel](https://github.com/vaibhav11123/jax-transformer-vlad): fused mixture-of-experts expert projections in JAX Pallas for a TPU v5e, written as part of Vlad Feinberg's frontier-lab roadmap. Fusing keeps the intermediate on-chip instead of round-tripping through HBM. Measured on TPU v5e, median of 50 runs: full forward 0.432 ms unfused vs 0.396 ms fused (1.09x); projection 0.400 ms vs 0.331 ms (1.21x). Recorded with jax 0.11.2 on a Colab TPU v5e (T=8192 tokens, E=256 experts, bf16, 10 warm-up runs, baseline jax.lax.ragged_dot); the repo's requirements.txt pins jax 0.10.2 for the training code, so the benchmark needs its own 0.11.2 environment. These timings alone do not explain why the saving differs between the two scopes; a profile is needed. To run: python -m moe_pallas.benchmark --kernel both --bt 32 --reuse 1 --figure. Uses synthetic expert assignments, not a learned router. The same repo has a from-scratch digit-addition transformer (about 10.6M parameters, JAX / Flax NNX / Optax, 100% exact match on 512 held-out sums) and Chinchilla-style scaling sweeps, all screen-recorded. Recorded walkthroughs: https://www.youtube.com/playlist?list=PLQHXISqfzAx8 and https://youtu.be/ji2_hHj-UI4 . Shows: accelerator programming, benchmarking discipline, learning in public.
+- Wardyn (private repository, client project): LLM governance control plane. He implemented entitlement filtering, policy configuration, session and token accounting, audit-before-response enforcement with HMAC hash-chained logs, and a CI workflow, with a 731-test suite. Shows: backend and security-minded design for enterprise AI.
+- RivRank (private repository, B.Tech research project): graph-based ranking over river networks. A directed MixHop ranking model, evaluated on 252 held-out Mekong queries across three seeds, with the recipe selected on two networks and held fixed for confirmation on the remaining ten. Shows: graph ML and careful evaluation.
+- Hublet / DISA ([repo](https://github.com/vaibhav11123/Hublet-ALPS), [live](https://hublet-alps.vercel.app)): end-to-end analytics for coworking and office rent prices across Indian cities: scraping (MagicBricks, MyHQ), model training, ResNet-50 features from listing photos, a Flask prediction API with model-drift monitoring, and a Next.js 14 + Firebase front end for users, sellers and admins. Built as Lead ML Engineer and Student PI of a Ministry of Education-backed project (Hublet ALPS): 10 signed letters of intent and about US$2,700 of institutional funding (DIC and IRD). Shows: ML to production, project leadership.
+
+## Other projects
+
+- [Hublet / DISA](https://github.com/vaibhav11123/Hublet-ALPS): real-estate price analytics with scraping, ML models, ResNet-50 on listing photos, Flask API and Next.js. 2025 to 2026.
+- [Claude Knowledge Vault](https://github.com/vaibhav11123/claude-knowledge-vault): turns claude.ai exports into an entity-linked Obsidian vault. 2026.
+- [Eterna](https://github.com/vaibhav11123/eterna-meme-coin-aggregator): real-time Solana meme-coin aggregator, WebSocket under 200 ms median. Demo: https://youtu.be/G21dH75YuZU . 2025.
+- [Cold outreach system](https://github.com/vaibhav11123/coldemail-outreach-system): cold-email infrastructure with strict data normalization. 2026.
+- [PG pipeline](https://github.com/vaibhav11123/noida-pg-pipeline): 4-phase ETL using Exa neural search and Google Maps grid scraping for PG listings. 2026.
+- [DisputePoint](https://github.com/vaibhav11123/disputepoint-ship): Delhi waterlogging incident coordination, WeMakeDevs environmental hackathon. 2026.
+- [Sequence Circuit](https://github.com/vaibhav11123/mcl431-circuits): YAML spec in, exam-style hydraulic and electropneumatic sheets out, an IIT Delhi course project. 2026.
+- [IPL analytics](https://github.com/vaibhav11123/ipl-analytics): T20 cricket analysis notebooks. 2025.
+- [Loan default modeling](https://github.com/vaibhav11123/Loan-Default-Modeling): loan default prediction on a Kaggle dataset. 2025.
+
+## Writing
+
+- [A Machine Does Not Contain Its Future](https://vaibhav11123.github.io/a-machine-does-not-contain-its-future/): Hero of Alexandria's steam sphere, hindsight, and how we read AI capability. Nov 2026.
+
+## Community
+
+- Claude Builder Club, IIT Delhi: started by Vaibhav in 2026. First session drew 500 people; more than 3,000 members now. Write-up with photos: https://www.linkedin.com/posts/vaibhav-singh-vs23_what-the-last-few-weeks-building-claude-activity-7449841112854306816-1rH1
+
+## Experience
+
+- Anthropic, Claude Student Ambassador, Feb to Sep 2026. First Claude Student Ambassador in Asia. Founded and runs the Claude Builder Club at IIT Delhi.
+- EY GDS, AI and Automation Intern, May to Jul 2026 (pre-placement offer received). Built a three-agent LangGraph retrieval-augmented generation system over 35+ legacy COBOL programs with Azure OpenAI GPT-4o, text-embedding-3-large, FAISS and BM25; evaluated with RAGAS on 200+ queries; added JSONL execution tracing to debug retrieval and generation failures.
+- HCLTech, Systems Engineering Intern, Oct to Dec 2025. Enterprise infrastructure work: incident investigation with Linux monitoring and automated diagnostic checks.
+- Searchlook, Software Engineering Intern (distributed systems), Aug to Sep 2025. MongoDB-backed job queue, idempotent writes, dynamic proxy rotation.
+- Hublet ALPS, Lead ML Engineer and Student PI, Apr to Dec 2025. See Hublet / DISA above.
+- SINC IIT Delhi, Co-Overall Coordinator, Jun 2026 to present.
+- Claude Builder Club, IIT Delhi, organizer, 2026 to present. First session drew 500 people; more than 3,000 members now. Write-up: https://www.linkedin.com/posts/vaibhav-singh-vs23_what-the-last-few-weeks-building-claude-activity-7449841112854306816-1rH1
+
+## Skills (each tied to work above)
+
+- Languages: Python (advanced; SDKs, Flask APIs, ML), TypeScript and JavaScript (VS Code extension, Next.js), C++ (coursework) and SQL.
+- ML and accelerators: JAX, Flax NNX, Optax, Pallas, PyTorch, CUDA, Triton, XGBoost, ResNet-50 feature extraction, scaling-law experiments.
+- Agents and retrieval: LangGraph, RAG, FAISS, BM25, RAGAS, Azure OpenAI, tool-calling clients (OpenAI, Anthropic).
+- Systems and data: Docker, MongoDB, PostgreSQL, Flask, WebSockets, GitHub Actions CI, scraping with Selenium and Google Maps grids, Linux monitoring.
+- Practices: test-first reliability work (182 and 731 test suites), benchmark methodology (median of 50 runs), writing and screen-recording walkthroughs.
+
+## Recognition
+
+- YC AI Startup School 2026 participant
+- Harvard HPAIR Asia Conference 2026 national delegate
+- JEE Advanced 2023, All India Rank 3,115
+
+## Photographs
+
+- [Photographs](https://vaibhav11123.github.io/photos/): his own photography, night streets and rain mostly.
+- [Mechanical pencil](https://vaibhav11123.github.io/mechanical-pencil/): an interactive four-bar linkage on graph paper. Turn the crank and a pencil draws a curve; drag the pivots to draw another.
+
+## Links
+
+- [Home](https://vaibhav11123.github.io/)
+- [GitHub](https://github.com/vaibhav11123)
+- [LinkedIn](https://www.linkedin.com/in/vaibhav-singh-vs23/)
+- [X](https://x.com/AyoVaibhav)
+</pre><p class="agent-note">same text as <a href="/llms-full.txt">/llms-full.txt</a> and <a href="/index.md">/index.md</a></p></section>
+
+  <footer>
+    <p class="recog">yc ai startup school 2026 · hpair asia 2026 national delegate · jee advanced 2023, air 3,115</p>
+    <div class="bar">
+      <span>vaibhav singh © 2026</span>
+      <nav>
+        <a href="mailto:vaibhavsinghiitd28@gmail.com">mail</a>
+        <a href="/assets/resume.pdf">cv</a>
+        <a href="/photos/">photos</a>
+        <a href="https://github.com/vaibhav11123">github</a>
+        <a href="https://www.linkedin.com/in/vaibhav-singh-vs23/">linkedin</a>
+        <a href="https://x.com/AyoVaibhav">x</a>
+      </nav>
+    </div>
+    <p class="sysline" id="sysline"></p>
+  </footer>
+</div>
+
+<div class="lightbox" id="lightbox"><img id="lightbox-img" alt=""></div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var q=new URLSearchParams(location.search);
+  var theme=q.get('theme')||localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+  var view=q.get('view')||localStorage.getItem('view')||'human';
+  function apply(){
+    if(theme==='dark'){root.setAttribute('data-theme','dark')}else{root.removeAttribute('data-theme')}
+    if(view==='agent'){root.setAttribute('data-view','agent')}else{root.removeAttribute('data-view')}
+    document.getElementById('v-human').classList.toggle('on',view!=='agent');
+    document.getElementById('v-agent').classList.toggle('on',view==='agent');
+    localStorage.setItem('theme',theme);localStorage.setItem('view',view);
+  }
+  document.getElementById('theme').onclick=function(){theme=theme==='dark'?'light':'dark';apply()};
+  document.getElementById('v-human').onclick=function(){view='human';apply()};
+  document.getElementById('v-agent').onclick=function(){view='agent';apply()};
+
+  // copy email with feedback (rauno detail)
+  document.getElementById('copymail').onclick=function(){
+    navigator.clipboard.writeText('vaibhavsinghiitd28@gmail.com');
+    var t=document.getElementById('copiedtag');t.classList.add('show');
+    setTimeout(function(){t.classList.remove('show')},1200);
+  };
+
+  // expandable details
+  Array.prototype.forEach.call(document.querySelectorAll('[data-details]'),function(b){
+    b.setAttribute('aria-expanded','false');
+    b.onclick=function(){
+      var d=document.getElementById(b.getAttribute('data-details'));
+      var open=d.classList.toggle('open');
+      b.textContent=b.textContent.replace(/ [+–]$/,'')+(open?' –':' +');
+      b.setAttribute('aria-expanded',open?'true':'false');
+    };
+  });
+
+  // archive filters
+  var fbtns=document.querySelectorAll('#filters button');
+  Array.prototype.forEach.call(fbtns,function(btn){
+    btn.onclick=function(){
+      Array.prototype.forEach.call(fbtns,function(x){x.classList.remove('on')});
+      btn.classList.add('on');
+      var f=btn.getAttribute('data-f');
+      Array.prototype.forEach.call(document.querySelectorAll('#archive .row'),function(r){
+        var tags=(r.getAttribute('data-tags')||'').split(' ');
+        r.classList.toggle('hide',f!=='all'&&tags.indexOf(f)===-1);
+      });
+    };
+  });
+
+  
+  (function(){
+    var f=['assets/1-wd-seq-healthy.webp','assets/1-wd-seq-fail.webp'];
+    var alt=['MCP Watchdog overview in VS Code with all three servers healthy','MCP Watchdog overview in VS Code: search-api retrying after the process closed the connection'];
+    var cap=['three servers answered the probe.',"then search-api stopped responding. watchdog names the cause: the process closed the connection. it can't see the editor's own connection to the server, so that part reads unknown."];
+    var st=document.getElementById('wdstep');if(st){var bs=st.querySelectorAll('.tabs button'),im=document.getElementById('wdimg'),cp=document.getElementById('wdcap');
+      Array.prototype.forEach.call(bs,function(b){b.onclick=function(){var i=+b.getAttribute('data-i');Array.prototype.forEach.call(bs,function(x){x.classList.toggle('on',x===b)});im.src=f[i];im.alt=alt[i];im.parentNode.classList.toggle('f',i===1);cp.textContent=cap[i]}})}
+    var c=document.getElementById('circ');if(c){Array.prototype.forEach.call(c.querySelectorAll('.tabs button'),function(b){b.onclick=function(){c.classList.toggle('src',b.getAttribute('data-v')==='src');Array.prototype.forEach.call(c.querySelectorAll('.tabs button'),function(x){x.classList.toggle('on',x===b)})}})}
+  })();
+  // lightbox
+  var lb=document.getElementById('lightbox'),li=document.getElementById('lightbox-img');
+  Array.prototype.forEach.call(document.querySelectorAll('[data-zoom]'),function(img){
+    img.onclick=function(){li.src=img.poster||img.src;li.alt=img.alt;lb.classList.add('open')};
+  });
+  lb.onclick=function(){lb.classList.remove('open')};
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('open')});
+
+  // cover click opens its details (real evidence lives there)
+  Array.prototype.forEach.call(document.querySelectorAll('[data-cover]'),function(f){
+    var go=function(){
+      var d=document.getElementById(f.getAttribute('data-cover'));
+      if(d&&!d.classList.contains('open')){
+        var b=document.querySelector('[data-details="'+f.getAttribute('data-cover')+'"]');
+        if(b)b.click();
+      }
+    };
+    f.setAttribute('tabindex','0');f.setAttribute('role','button');
+    f.setAttribute('aria-label','Open details: '+(f.getAttribute('title')||'project'));
+    f.addEventListener('click',go);
+    f.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});
+  });
+
+  // deep links for previews: ?expand=d-watchdog
+  var ex=q.get('expand');if(ex){var el=document.getElementById(ex);if(el){el.classList.add('open');var btn=document.querySelector('[data-details="'+ex+'"]');if(btn)btn.textContent=btn.textContent.replace(/ [+–]$/,'')+' –';}}
+
+  // wordmark scramble (jhey.dev mechanism: letters resolve out of noise)
+  var wm=document.getElementById('wordmark'),orig=wm.textContent,pool='!<>-_\\/[]{}=+*^?#';
+  var raf;
+  function scramble(){
+    var frame=0;cancelAnimationFrame(raf);
+    function step(){
+      var out='';
+      for(var i=0;i<orig.length;i++){
+        if(i<frame/2)out+=orig[i];
+        else out+=pool[Math.floor(Math.random()*pool.length)];
+      }
+      wm.textContent=out;frame++;
+      if(frame/2<=orig.length)raf=requestAnimationFrame(step);else wm.textContent=orig;
+    }
+    step();
+  }
+  wm.addEventListener('mouseenter',function(){if(!matchMedia('(prefers-reduced-motion: reduce)').matches)scramble()});
+
+  // live status line (jhey-style footer: local time, viewport, state)
+  var sys=document.getElementById('sysline');
+  function tick(){
+    var t=new Date().toLocaleTimeString('en-GB',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit'});
+    sys.textContent='new delhi '+t+' ist · '+window.innerWidth+'×'+window.innerHeight+' · '+(theme==='dark'?'dark':'light')+' · '+(view==='agent'?'agent':'human')+' view';
+  }
+  tick();setInterval(tick,30000);window.addEventListener('resize',tick);
+  ['theme','v-human','v-agent'].forEach(function(id){document.getElementById(id).addEventListener('click',function(){setTimeout(tick,10)})});
+
+  if(q.get('fuse')){var ft=document.getElementById('fuse-tgl');if(ft)ft.checked=true;}
+  if(q.get('f')){var fb=document.querySelector('#filters button[data-f="'+q.get('f')+'"]');if(fb)fb.click();}
+  apply();
+})();
+
+  (function(){
+    var root=document.getElementById('acgsim');if(!root)return;
+    var BUD=100,spent,runs,enf,n,log=[];
+    var line=document.getElementById('simline'),bar=document.getElementById('simbar'),lg=document.getElementById('simlog');
+    function usd(c){return '$'+(c/100).toFixed(2)}
+    function usd2(c2){return '$'+(c2/200).toFixed(c2%2?3:2)}
+    function hold2(){var r=runs.filter(function(c){return c>0}).slice(-20);if(r.length<3)return 0;r=r.slice().sort(function(a,b){return a-b});var m=r.length>>1;return r.length%2?2*r[m]:r[m-1]+r[m]}
+    function status(){if(2*spent+hold2()>=2*BUD)return 'exceeded';if(5*spent>=4*BUD)return 'warn';return 'ok'}
+    function say(t,c){log.push([t,c]);if(log.length>4)log.shift();lg.innerHTML=log.map(function(x){return '<div'+(x[1]?' class="'+x[1]+'"':'')+'>'+x[0]+'</div>'}).join('')}
+    function draw(){var st=status();root.className='sim '+st;line.textContent='acme \u00b7 budget '+usd(BUD)+' \u00b7 spent '+usd(spent)+' \u00b7 status '+st;document.getElementById('simchk').textContent='check before a run: spent '+usd(spent)+' + hold '+usd2(hold2())+' = '+usd2(2*spent+hold2())+(2*spent+hold2()>=2*BUD?' ≥ ':' < ')+usd(BUD)+(enf?'':' (not enforced)');bar.style.width=Math.min(100,spent*100/BUD)+'%'}
+    function reset(){spent=0;runs=[];n=0;log=[];lg.innerHTML='';say('enforcement is '+(enf?'on':'off')+'. pick a call.');draw()}
+    function call(c){var st=status();n++;
+      if(enf&&st==='exceeded'){say('run '+n+' \u00b7 run() raised CustomerBudgetExceededError before the call. nothing charged.','err');draw();return}
+      var before=spent;spent+=c;runs.push(c);
+      say('run '+n+' \u00b7 '+usd(c)+' ran'+(st==='exceeded'?' (the check would have refused it, enforcement off)':(spent>BUD?' (crossed the budget)':''))+'.');draw()}
+    enf=0;reset();
+    Array.prototype.forEach.call(root.querySelectorAll('[data-cost]'),function(b){b.onclick=function(){call(+b.getAttribute('data-cost'))}});
+    Array.prototype.forEach.call(root.querySelectorAll('[data-enf]'),function(b){b.onclick=function(){enf=+b.getAttribute('data-enf');Array.prototype.forEach.call(root.querySelectorAll('[data-enf]'),function(x){x.classList.toggle('on',x===b)});say('enforcement '+(enf?'on':'off')+'.');draw()}});
+    document.getElementById('simreset').onclick=reset;
+  })();
+</script>
+<script>/*reduced-motion-video*/if(matchMedia("(prefers-reduced-motion:reduce)").matches)document.querySelectorAll("video").forEach(function(v){v.removeAttribute("autoplay");v.pause()});</script>
+</body>
+</html>
+
