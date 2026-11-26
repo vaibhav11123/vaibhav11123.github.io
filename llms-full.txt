@@ -17,7 +17,7 @@
 - Reliability, testing and developer tools: live probing of MCP servers with a verified-fix workflow and 182 unit tests (MCP Watchdog); incident investigation and automated diagnostics on Linux (HCLTech); a 731-test suite and CI for Wardyn.
 - ML and ML systems: a fused mixture-of-experts kernel in JAX Pallas on a TPU v5e with measured speedups; a from-scratch transformer and Chinchilla-style scaling sweeps in JAX; real-estate price models with ResNet-50 features; a graph ranking model over river networks (RivRank).
 - Data and pipelines: scraping, cleaning and ETL (Hublet / DISA, PG pipeline); Exa neural search plus Google Maps grid scraping; entity-linked knowledge graphs from chat exports.
-- Community, ownership and communication: founded the Claude Builder Club at IIT Delhi (500 at the first session, 3,000+ members now), first Claude Student Ambassador in Asia, co-overall coordinator at SIIC IIT Delhi, writes essays on his blog, led a Ministry of Education-backed ML project as student PI.
+- Community, ownership and communication: founded the Claude Builder Club at IIT Delhi (500 at the first session, 3,000+ members now), first Claude Student Ambassador in Asia, co-overall coordinator at SINC IIT Delhi, writes essays on his blog, led a Ministry of Education-backed ML project as student PI.
 - Operations and industrial background: B.Tech in Production and Industrial Engineering; wrote YAML-to-drawing tooling for hydraulic and electropneumatic circuit sheets for an IIT Delhi course.
 
 ## Projects (featured)
@@ -56,7 +56,7 @@
 - HCLTech, Systems Engineering Intern, Oct to Dec 2025. Enterprise infrastructure work: incident investigation with Linux monitoring and automated diagnostic checks.
 - Searchlook, Software Engineering Intern (distributed systems), Aug to Sep 2025. MongoDB-backed job queue, idempotent writes, dynamic proxy rotation.
 - Hublet ALPS, Lead ML Engineer and Student PI, Apr to Dec 2025. See Hublet / DISA above.
-- SIIC IIT Delhi, Co-Overall Coordinator, Jun 2026 to present.
+- SINC IIT Delhi, Co-Overall Coordinator, Jun 2026 to present.
 - Claude Builder Club, IIT Delhi, organizer, 2026 to present. First session drew 500 people; more than 3,000 members now. Write-up: https://www.linkedin.com/posts/vaibhav-singh-vs23_what-the-last-few-weeks-building-claude-activity-7449841112854306816-1rH1
 
 ## Skills (each tied to work above)
