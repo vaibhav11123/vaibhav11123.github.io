@@ -64,7 +64,8 @@ h1{font-weight:600;font-size:52px;letter-spacing:-.01em;line-height:1.04}
 .tabs button:hover{color:var(--ink)}
 .tabs button.on{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
 .step .shot{margin-top:10px;border:1px solid #2c2c2c;border-radius:8px;overflow:hidden;background:#1e1e1e}
-.step .shot img{display:block;width:100%;height:auto}
+.step .shot{aspect-ratio:1000/262}
+.step .shot img{display:block;width:100%;height:auto;margin-top:-34%}
 .scap{margin-top:10px;font-size:15.5px;color:var(--muted);min-height:3.2em}
 .cx{margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:14px 10px 10px;background:var(--bg)}
 .cs{display:block;width:100%;height:auto;color:var(--ink)}
@@ -333,7 +334,7 @@ html[data-view=agent] .agent-url::before{content:" "}
             <div class="step" id="wdstep">
               <div class="tabs"><button class="on" type="button" data-i="0">healthy</button><button type="button" data-i="1">search-api fails</button></div>
               <div class="shot"><img id="wdimg" src="assets/1-wd-seq-healthy.webp" width="1000" height="712" alt="MCP Watchdog overview in VS Code with all three servers healthy"></div>
-              <p class="scap" id="wdcap">three servers, all answering.</p>
+              <p class="scap" id="wdcap">three servers answered the probe.</p>
               <p class="scap" style="margin-top:2px;font-family:'Geist Mono',ui-monospace,monospace;font-size:12px;color:var(--faint)">screen capture in vs code, test servers, one made to fail</p>
             </div>
             <div class="pl">
@@ -352,39 +353,8 @@ html[data-view=agent] .agent-url::before{content:" "}
         <li class="p">
           <span class="idx">02</span>
           <div class="pbody">
-            <div class="ph"><h3><a href="https://github.com/vaibhav11123/agentcogs">agentcogs</a></h3><span class="when">2026</span></div>
-            <p class="px">agentcogs shows an ai company what each of its customers costs. it tags model calls with a customer id, so spending, budgets and margin show up per account. it's a python sdk on pypi with 1,800+ downloads, and the live demo runs on fictional data.</p>
-            <figure class="figcover" data-cover="d-agentcogs" title="details hold the live-demo screenshot"><div class="rc rc-ac"><div class="rc-sc"><picture><source media="(max-width:560px)" srcset="assets/acg-customers-m.jpg"><img src="assets/acg-customers.jpg" alt="AgentCOGS customer view of its demo workspace: per-customer AI cost, fee, margin bars and budget status" width="1500" height="1009"></picture></div><span class="rc-tag">live demo &middot; fictional sample data<span class="rc-sw"> &middot; middle columns trimmed</span></span></div></figure>
-            <div class="pl">
-              <a href="https://github.com/vaibhav11123/agentcogs">github ↗<span class="agent-only agent-url">https://github.com/vaibhav11123/agentcogs</span></a>
-              <a href="https://pypi.org/project/agentcogs/">pypi ↗<span class="agent-only agent-url">https://pypi.org/project/agentcogs/</span></a>
-              <a href="https://agentcogs.vercel.app/">live demo ↗<span class="agent-only agent-url">https://agentcogs.vercel.app/</span></a>
-              <button class="details-btn" data-details="d-agentcogs" type="button">details +</button>
-            </div>
-            <ul class="details" id="d-agentcogs">
-              <li>per-customer cost attribution, monthly budgets and contribution margin per account</li>
-              <li>captures usage from openai and anthropic client calls, priced against a price book</li>
-              <li>the live demo runs on fictional data; self-host for real customers</li>
-              <li>public pypi counters include ci traffic</li>
-              <li class="simli"><div class="sim" id="acgsim" aria-label="simulation of the agentcogs budget check">
-                <div class="sh"><span>try the budget check<span class="tag">simulation · made-up costs</span></span><span class="seg" role="group" aria-label="enforcement"><button type="button" data-enf="0" class="on">enforcement off</button><button type="button" data-enf="1">on</button></span></div>
-                <div class="line" id="simline"></div>
-                <div class="chk" id="simchk"></div>
-                <div class="bar"><i id="simbar"></i></div>
-                <div class="acts"><button type="button" data-cost="5">small call $0.05</button><button type="button" data-cost="35">large call $0.35</button><button type="button" id="simreset">reset</button></div>
-                <div class="log" id="simlog" aria-live="polite"></div>
-                <p class="fine">simulation with made-up costs: no real model calls, no charges, nothing is sent anywhere. with enforcement on, a run is refused once spent plus a hold reaches the budget. the hold is the median cost of the last runs (zero until there are three), so a run can be refused before spend shows $1.00. it follows the check before each run in <a href="https://github.com/vaibhav11123/agentcogs/blob/main/src/agentcogs/budget.py">budget.py</a> and the status rule in <a href="https://github.com/vaibhav11123/agentcogs/blob/main/backend/app/services/budget_hold.py">budget_hold.py</a>. calls running at the same time, or a failed budget lookup, behave differently.</p>
-              </div></li>
-              <li class="proof"><figure class="fig"><img src="assets/acg-cover.png" data-zoom alt="AgentCOGS demo dashboard: AI margin 74.6 percent in green, fee minus AI cost, cost-over-time chart, and a red alert that one customer ends the month deep negative, on fictional sample data"><figcaption class="figcap"><span class="tag">sample demo data</span>the live demo on fictional data</figcaption></figure></li>
-            </ul>
-          </div>
-        </li>
-
-        <li class="p">
-          <span class="idx">03</span>
-          <div class="pbody">
             <div class="ph"><h3><a href="https://github.com/vaibhav11123/jax-transformer-vlad">jax moe kernel</a></h3><span class="when">2026</span></div>
-            <p class="px">a fused mixture-of-experts kernel in jax pallas, written for a tpu v5e as part of vlad feinberg's frontier-lab roadmap. fusing the projections keeps the intermediate on-chip instead of round-tripping through memory. the repo also holds a digit-addition transformer built from scratch, scaling-law sweeps, and recorded walkthroughs of the core build. flip the toggle to see what changes.</p>
+            <p class="px">1.21x faster for the projection step and 1.09x for the full forward pass, as timed on a tpu v5e. a fused mixture-of-experts kernel in jax pallas, written for a tpu v5e as part of vlad feinberg's frontier-lab roadmap. fusing the projections keeps the intermediate on-chip instead of round-tripping through memory. the repo also holds a digit-addition transformer built from scratch, scaling-law sweeps, and recorded walkthroughs of the core build. flip the toggle to see what changes.</p>
                         <div class="fuse">
               <input type="checkbox" id="fuse-tgl" class="fuse-input" aria-label="toggle between unfused and fused kernel diagram">
               <div class="fuse-bar">
@@ -416,6 +386,37 @@ html[data-view=agent] .agent-url::before{content:" "}
             
           </div>
         </li>
+        <li class="p">
+          <span class="idx">03</span>
+          <div class="pbody">
+            <div class="ph"><h3><a href="https://github.com/vaibhav11123/agentcogs">agentcogs</a></h3><span class="when">2026</span></div>
+            <p class="px">agentcogs shows an ai company what each of its customers costs. it tags model calls with a customer id, so spending, budgets and margin show up per account. it's a python sdk on pypi with 1,800+ downloads, and the live demo runs on fictional data.</p>
+            <figure class="figcover" data-cover="d-agentcogs" title="details hold the live-demo screenshot"><div class="rc rc-ac"><div class="rc-sc"><picture><source media="(max-width:560px)" srcset="assets/acg-customers-m.jpg"><img src="assets/acg-customers.jpg" alt="AgentCOGS customer view of its demo workspace: per-customer AI cost, fee, margin bars and budget status" width="1500" height="1009"></picture></div><span class="rc-tag">live demo &middot; fictional sample data<span class="rc-sw"> &middot; middle columns trimmed</span></span></div></figure>
+            <div class="pl">
+              <a href="https://github.com/vaibhav11123/agentcogs">github ↗<span class="agent-only agent-url">https://github.com/vaibhav11123/agentcogs</span></a>
+              <a href="https://pypi.org/project/agentcogs/">pypi ↗<span class="agent-only agent-url">https://pypi.org/project/agentcogs/</span></a>
+              <a href="https://agentcogs.vercel.app/">live demo ↗<span class="agent-only agent-url">https://agentcogs.vercel.app/</span></a>
+              <button class="details-btn" data-details="d-agentcogs" type="button">try the $1 budget +</button>
+            </div>
+            <ul class="details" id="d-agentcogs">
+              <li>per-customer cost attribution, monthly budgets and contribution margin per account</li>
+              <li>captures usage from openai and anthropic client calls, priced against a price book</li>
+              <li>the live demo runs on fictional data; self-host for real customers</li>
+              <li>public pypi counters include ci traffic</li>
+              <li class="simli"><div class="sim" id="acgsim" aria-label="simulation of the agentcogs budget check">
+                <div class="sh"><span>try the budget check<span class="tag">simulation · made-up costs</span></span><span class="seg" role="group" aria-label="enforcement"><button type="button" data-enf="0" class="on">enforcement off</button><button type="button" data-enf="1">on</button></span></div>
+                <div class="line" id="simline"></div>
+                <div class="chk" id="simchk"></div>
+                <div class="bar"><i id="simbar"></i></div>
+                <div class="acts"><button type="button" data-cost="5">small call $0.05</button><button type="button" data-cost="35">large call $0.35</button><button type="button" id="simreset">reset</button></div>
+                <div class="log" id="simlog" aria-live="polite"></div>
+                <p class="fine">simulation with made-up costs: no real model calls, no charges, nothing is sent anywhere. with enforcement on, a run is refused once spent plus a hold reaches the budget. the hold is the median cost of the last runs (zero until there are three), so a run can be refused before spend shows $1.00. it follows the check before each run in <a href="https://github.com/vaibhav11123/agentcogs/blob/main/src/agentcogs/budget.py">budget.py</a> and the status rule in <a href="https://github.com/vaibhav11123/agentcogs/blob/main/backend/app/services/budget_hold.py">budget_hold.py</a>. calls running at the same time, or a failed budget lookup, behave differently.</p>
+              </div></li>
+              <li class="proof"><figure class="fig"><img src="assets/acg-cover.png" data-zoom alt="AgentCOGS demo dashboard: AI margin 74.6 percent in green, fee minus AI cost, cost-over-time chart, and a red alert that one customer ends the month deep negative, on fictional sample data"><figcaption class="figcap"><span class="tag">sample demo data</span>the live demo on fictional data</figcaption></figure></li>
+            </ul>
+          </div>
+        </li>
+
       </ol>
 
       <div class="label" style="margin-top:56px">everything else<span class="hint">the rest, filterable</span></div>
@@ -600,7 +601,7 @@ html[data-view=agent] .agent-url::before{content:" "}
     b.onclick=function(){
       var d=document.getElementById(b.getAttribute('data-details'));
       var open=d.classList.toggle('open');
-      b.textContent=open?'details –':'details +';
+      b.textContent=b.textContent.replace(/ [+–]$/,'')+(open?' –':' +');
       b.setAttribute('aria-expanded',open?'true':'false');
     };
   });
@@ -623,7 +624,7 @@ html[data-view=agent] .agent-url::before{content:" "}
   (function(){
     var f=['assets/1-wd-seq-healthy.webp','assets/1-wd-seq-fail.webp'];
     var alt=['MCP Watchdog overview in VS Code with all three servers healthy','MCP Watchdog overview in VS Code: search-api retrying after the process closed the connection'];
-    var cap=['three servers, all answering.',"search-api stops answering. watchdog names the cause: the process closed the connection. it can't see the editor's own connection to the server, so that part reads unknown."];
+    var cap=['three servers answered the probe.',"then search-api stopped responding. watchdog names the cause: the process closed the connection. it can't see the editor's own connection to the server, so that part reads unknown."];
     var st=document.getElementById('wdstep');if(st){var bs=st.querySelectorAll('.tabs button'),im=document.getElementById('wdimg'),cp=document.getElementById('wdcap');
       Array.prototype.forEach.call(bs,function(b){b.onclick=function(){var i=+b.getAttribute('data-i');Array.prototype.forEach.call(bs,function(x){x.classList.toggle('on',x===b)});im.src=f[i];im.alt=alt[i];cp.textContent=cap[i]}})}
     var c=document.getElementById('circ');if(c){Array.prototype.forEach.call(c.querySelectorAll('.tabs button'),function(b){b.onclick=function(){c.classList.toggle('src',b.getAttribute('data-v')==='src');Array.prototype.forEach.call(c.querySelectorAll('.tabs button'),function(x){x.classList.toggle('on',x===b)})}})}
@@ -652,7 +653,7 @@ html[data-view=agent] .agent-url::before{content:" "}
   });
 
   // deep links for previews: ?expand=d-watchdog
-  var ex=q.get('expand');if(ex){var el=document.getElementById(ex);if(el){el.classList.add('open');var btn=document.querySelector('[data-details="'+ex+'"]');if(btn)btn.textContent='details –';}}
+  var ex=q.get('expand');if(ex){var el=document.getElementById(ex);if(el){el.classList.add('open');var btn=document.querySelector('[data-details="'+ex+'"]');if(btn)btn.textContent=btn.textContent.replace(/ [+–]$/,'')+' –';}}
 
   // wordmark scramble (jhey.dev mechanism: letters resolve out of noise)
   var wm=document.getElementById('wordmark'),orig=wm.textContent,pool='!<>-_\\/[]{}=+*^?#';
