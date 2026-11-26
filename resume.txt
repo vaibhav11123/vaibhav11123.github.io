@@ -22,7 +22,7 @@ MongoDB-backed job queue, idempotent writes, dynamic proxy rotation.
 Hublet ALPS - Lead ML Engineer and Student PI | Apr 2025 - Dec 2025
 Ministry of Education-backed ML project; Flask inference API with model-drift monitoring; 10 signed LOIs.
 
-SIIC, IIT Delhi - Co-Overall Coordinator | Jun 2026 - present
+SINC, IIT Delhi - Co-Overall Coordinator | Jun 2026 - present
 
 PROJECTS
 MCP Watchdog - MCP reliability tooling | github.com/vaibhav11123/mcp-watchdog
