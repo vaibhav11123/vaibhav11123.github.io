@@ -151,10 +151,12 @@ h1{font-weight:600;font-size:44px;letter-spacing:-.01em;line-height:1.05}
     var m=/m=(-?\d+),(-?\d+),(-?\d+),(-?\d+)/.exec(location.hash);
     if(m){
       var a={x:+m[1],y:+m[2]}, d={x:+m[3],y:+m[4]};
-      if(inBounds(a)&&inBounds(d)&&solve(a,d,theta)){A=a;D=d}
+      if(inBounds(a)&&inBounds(d)&&solve(a,d,theta)&&turns(a,d)){A=a;D=d}
     }
   })();
 
+  // the crank must be able to go all the way round, so every drawing is a closed loop
+  function turns(a,d){for(var i=0;i<72;i++){if(!solve(a,d,i/72*Math.PI*2,null))return false}return true}
   function inBounds(p){return p.x>=VX+20&&p.x<=VX+VW-20&&p.y>=VY+20&&p.y<=VY+VH-20}
 
   // returns {B,C,P} or null when the linkage cannot close at this crank angle
@@ -309,7 +311,7 @@ h1{font-weight:600;font-size:44px;letter-spacing:-.01em;line-height:1.05}
       var np={x:Math.max(VX+20,Math.min(VX+VW-20,p.x)), y:Math.max(VY+20,Math.min(VY+VH-20,p.y))};
       var a=dragging==='A'?np:A, dd=dragging==='D'?np:D;
       // keep the pivots apart and the linkage closed at the current crank angle
-      if(Math.hypot(a.x-dd.x,a.y-dd.y)>60 && solve(a,dd,theta,C)){
+      if(Math.hypot(a.x-dd.x,a.y-dd.y)>60 && solve(a,dd,theta,C) && turns(a,dd)){
         if(dragging==='A') A=np; else D=np;
         draw(); drawPreview();
       }
