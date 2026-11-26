@@ -82,12 +82,12 @@ h1{font-weight:600;font-size:44px;letter-spacing:-.01em;line-height:1.05}
     </div>
 
     <div class="sheet" id="sheet">
-      <svg id="svg" viewBox="0 0 640 520" role="img" aria-label="A four-bar linkage on graph paper. Drag the crank to draw a curve.">
+      <svg id="svg" viewBox="80 100 480 380" role="img" aria-label="A four-bar linkage on graph paper. Drag the crank to draw a curve.">
         <defs>
           <pattern id="g1" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0H0V10" fill="none" stroke="var(--grid)" stroke-width="1"/></pattern>
           <pattern id="g5" width="50" height="50" patternUnits="userSpaceOnUse"><rect width="50" height="50" fill="url(#g1)"/><path d="M50 0H0V50" fill="none" stroke="var(--grid2)" stroke-width="1"/></pattern>
         </defs>
-        <rect width="640" height="520" fill="url(#g5)"/>
+        <rect x="0" y="0" width="640" height="520" fill="url(#g5)"/>
         <g id="ghosts"></g>
         <path id="preview" fill="none" stroke="var(--ghost)" stroke-width="1.4" stroke-dasharray="3 5"/>
         <path id="trace" fill="none" stroke="var(--trace)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -133,7 +133,7 @@ h1{font-weight:600;font-size:44px;letter-spacing:-.01em;line-height:1.05}
   applyTheme();
 
   var NS='http://www.w3.org/2000/svg';
-  var W=640,H=520;
+  var W=640,H=520, VX=80,VY=100,VW=480,VH=380;
   var svg=document.getElementById('svg');
   function $(id){return document.getElementById(id)}
 
@@ -155,7 +155,7 @@ h1{font-weight:600;font-size:44px;letter-spacing:-.01em;line-height:1.05}
     }
   })();
 
-  function inBounds(p){return p.x>=20&&p.x<=W-20&&p.y>=20&&p.y<=H-20}
+  function inBounds(p){return p.x>=VX+20&&p.x<=VX+VW-20&&p.y>=VY+20&&p.y<=VY+VH-20}
 
   // returns {B,C,P} or null when the linkage cannot close at this crank angle
   function solve(a,d,t,prevC){
@@ -271,7 +271,7 @@ h1{font-weight:600;font-size:44px;letter-spacing:-.01em;line-height:1.05}
 
   function toSvg(e){
     var r=svg.getBoundingClientRect();
-    return {x:(e.clientX-r.left)*W/r.width, y:(e.clientY-r.top)*H/r.height};
+    return {x:VX+(e.clientX-r.left)*VW/r.width, y:VY+(e.clientY-r.top)*VH/r.height};
   }
 
   var hitFor={hK:'crank',hA:'A',hD:'D'};
@@ -306,7 +306,7 @@ h1{font-weight:600;font-size:44px;letter-spacing:-.01em;line-height:1.05}
       for(var i=0;i<n;i++){ if(!setTheta(theta+st)) break; }
       draw();
     } else {
-      var np={x:Math.max(20,Math.min(W-20,p.x)), y:Math.max(20,Math.min(H-20,p.y))};
+      var np={x:Math.max(VX+20,Math.min(VX+VW-20,p.x)), y:Math.max(VY+20,Math.min(VY+VH-20,p.y))};
       var a=dragging==='A'?np:A, dd=dragging==='D'?np:D;
       // keep the pivots apart and the linkage closed at the current crank angle
       if(Math.hypot(a.x-dd.x,a.y-dd.y)>60 && solve(a,dd,theta,C)){
