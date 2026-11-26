@@ -65,6 +65,7 @@ h1{font-weight:600;font-size:52px;letter-spacing:-.01em;line-height:1.04}
 .tabs button.on{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
 .step .shot{margin-top:10px;border:1px solid #2c2c2c;border-radius:8px;overflow:hidden;background:#1e1e1e}
 .step .shot{aspect-ratio:1000/262}
+.step .shot.f{aspect-ratio:1000/235}
 .step .shot img{display:block;width:100%;height:auto;margin-top:-34%}
 .scap{margin-top:10px;font-size:15.5px;color:var(--muted);min-height:3.2em}
 .cx{margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:14px 10px 10px;background:var(--bg)}
@@ -626,7 +627,7 @@ html[data-view=agent] .agent-url::before{content:" "}
     var alt=['MCP Watchdog overview in VS Code with all three servers healthy','MCP Watchdog overview in VS Code: search-api retrying after the process closed the connection'];
     var cap=['three servers answered the probe.',"then search-api stopped responding. watchdog names the cause: the process closed the connection. it can't see the editor's own connection to the server, so that part reads unknown."];
     var st=document.getElementById('wdstep');if(st){var bs=st.querySelectorAll('.tabs button'),im=document.getElementById('wdimg'),cp=document.getElementById('wdcap');
-      Array.prototype.forEach.call(bs,function(b){b.onclick=function(){var i=+b.getAttribute('data-i');Array.prototype.forEach.call(bs,function(x){x.classList.toggle('on',x===b)});im.src=f[i];im.alt=alt[i];cp.textContent=cap[i]}})}
+      Array.prototype.forEach.call(bs,function(b){b.onclick=function(){var i=+b.getAttribute('data-i');Array.prototype.forEach.call(bs,function(x){x.classList.toggle('on',x===b)});im.src=f[i];im.alt=alt[i];im.parentNode.classList.toggle('f',i===1);cp.textContent=cap[i]}})}
     var c=document.getElementById('circ');if(c){Array.prototype.forEach.call(c.querySelectorAll('.tabs button'),function(b){b.onclick=function(){c.classList.toggle('src',b.getAttribute('data-v')==='src');Array.prototype.forEach.call(c.querySelectorAll('.tabs button'),function(x){x.classList.toggle('on',x===b)})}})}
   })();
   // lightbox
