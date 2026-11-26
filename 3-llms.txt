@@ -1,0 +1,29 @@
+# Vaibhav Singh
+
+> Final-year B.Tech student in Production and Industrial Engineering at IIT Delhi (graduating May 2027), New Delhi, India. Builds software across tooling, ML and systems. Open to 2027 new-grad engineering roles. Contact: vaibhavsinghiitd28@gmail.com
+
+Full text: https://vaibhav11123.github.io/llms-full.txt
+
+## Projects
+
+- [MCP Watchdog](https://github.com/vaibhav11123/mcp-watchdog): VS Code extension that monitors MCP servers and walks through fixes. 100+ developers; around 4,000 Open VSX downloads.
+- [AgentCOGS](https://github.com/vaibhav11123/agentcogs): Python SDK for per-customer AI cost and margin. 1,800+ PyPI downloads. Demo runs on fictional data: https://agentcogs.vercel.app/
+- [JAX MoE kernel](https://github.com/vaibhav11123/jax-transformer-vlad): fused MoE projections in Pallas on TPU v5e, 1.09x full forward and 1.21x projection vs unfused (median of 50 runs).
+
+## What he can help with
+
+Product and backend engineering, applied AI and agent systems, reliability and developer tools, ML systems (JAX/Pallas on TPU), data pipelines, community building. Evidence for each in the full text.
+
+## Writing and community
+
+- [A Machine Does Not Contain Its Future](https://vaibhav11123.github.io/a-machine-does-not-contain-its-future/): essay on hindsight and reading AI capability.
+- [Claude Builder Club write-up](https://www.linkedin.com/posts/vaibhav-singh-vs23_what-the-last-few-weeks-building-claude-activity-7449841112854306816-1rH1): started the club at IIT Delhi; first session drew 500 people; now more than 3,000 members.
+
+## Optional
+
+- [Full text](https://vaibhav11123.github.io/llms-full.txt)
+- [Resume as text](https://vaibhav11123.github.io/resume.txt)
+- [Resume PDF](https://vaibhav11123.github.io/assets/resume.pdf)
+- [Photographs](https://vaibhav11123.github.io/photos/)
+- [GitHub](https://github.com/vaibhav11123)
+- [LinkedIn](https://www.linkedin.com/in/vaibhav-singh-vs23/)

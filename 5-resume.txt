@@ -1,0 +1,35 @@
+VAIBHAV SINGH
+ML systems and AI infrastructure
+New Delhi, India | +91 81304 43870 | vaibhavsinghiitd28@gmail.com | linkedin.com/in/vaibhav-singh-vs23 | github.com/vaibhav11123
+
+EDUCATION
+Indian Institute of Technology Delhi (IIT Delhi) - B.Tech, Production and Industrial Engineering, expected May 2027
+JEE Advanced 2023: All India Rank 3,115
+
+EXPERIENCE
+Anthropic - Claude Student Ambassador | Feb 2026 - Sep 2026
+First Claude Student Ambassador in Asia; founded the IIT Delhi Claude Builder Club.
+
+EY GDS - AI and Automation Intern | May 2026 - Jul 2026
+Three-agent LangGraph RAG system over 35+ legacy COBOL programs (Azure OpenAI, FAISS, BM25, RAGAS). Pre-placement offer received.
+
+HCLTech - Systems Engineering Intern | Oct 2025 - Dec 2025
+Enterprise infrastructure: incident investigation with Linux monitoring, automated diagnostic checks.
+
+Searchlook - Software Engineering Intern, Distributed Systems | Aug 2025 - Sep 2025
+MongoDB-backed job queue, idempotent writes, dynamic proxy rotation.
+
+Hublet ALPS - Lead ML Engineer and Student PI | Apr 2025 - Dec 2025
+Ministry of Education-backed ML project; Flask inference API with model-drift monitoring; 10 signed LOIs.
+
+SIIC, IIT Delhi - Co-Overall Coordinator | Jun 2026 - present
+
+PROJECTS
+MCP Watchdog - MCP reliability tooling | github.com/vaibhav11123/mcp-watchdog
+AgentCOGS - per-customer AI cost and margin tracking SDK | github.com/vaibhav11123/agentcogs | pypi.org/project/agentcogs
+JAX MoE kernel - fused MoE on TPU v5e | github.com/vaibhav11123/jax-transformer-vlad
+Wardyn - LLM governance control plane (client project, private)
+RivRank - graph-based river ranking, B.Tech research (private)
+
+SKILLS
+Python, TypeScript, C++, JavaScript, SQL; JAX, Flax NNX, Pallas, PyTorch, CUDA, Triton; distributed systems, Docker, MongoDB, PostgreSQL; LangGraph, RAG, FAISS, BM25, RAGAS, XGBoost, GitHub Actions
