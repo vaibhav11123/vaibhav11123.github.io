@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mechanical pencil | Vaibhav Singh</title>
+<meta name="description" content="A four-bar linkage on graph paper. Turn the crank and the pencil draws a curve. Drag a pivot and draw a different one.">
+<link rel="canonical" href="https://vaibhav11123.github.io/mechanical-pencil/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf9f6; --ink:#1b1a17; --body:#43413b; --muted:#6f6d66; --faint:#a6a49c;
+  --line:#e8e6e0; --hl:#fde68a;
+  --grid:rgba(52,86,140,.13); --grid2:rgba(52,86,140,.30);
+  --pencil:#d92a1c; --trace:#1b1a17; --ghost:rgba(27,26,23,.20);
+}
+html[data-theme=dark]{
+  --bg:#171613; --ink:#eceae5; --body:#c9c7c0; --muted:#9c9a92; --faint:#66645e;
+  --line:#2b2925; --hl:#854d0e;
+  --grid:rgba(143,176,255,.10); --grid2:rgba(143,176,255,.22);
+  --pencil:#ff5a4a; --trace:#eceae5; --ghost:rgba(236,234,229,.22);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:"Source Serif 4",Georgia,"Times New Roman",serif;font-size:17px;line-height:1.62;transition:background .25s ease,color .25s ease}
+.wrap{max-width:636px;margin:0 auto;padding:0 24px}
+a{color:inherit}
+::selection{background:var(--hl);color:#1b1a17}
+.top{display:flex;justify-content:space-between;align-items:center;padding:22px 0;font-family:"Geist Mono",ui-monospace,monospace;font-size:12.5px}
+.top a{text-decoration:none;color:var(--ink)}
+.top .controls{display:flex;align-items:center;gap:16px}
+.back{color:var(--faint);transition:color .2s}
+.back:hover{color:var(--ink)}
+.icon-btn{font:inherit;color:var(--faint);background:none;border:0;cursor:pointer;padding:0;transition:color .2s}
+.icon-btn:hover{color:var(--ink)}
+.icon-btn svg{display:block;width:15px;height:15px}
+.hero{padding:40px 0 20px}
+h1{font-weight:600;font-size:44px;letter-spacing:-.01em;line-height:1.05}
+.hero p{margin-top:14px;color:var(--body);max-width:52ch}
+
+.sheet{position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg);touch-action:none;user-select:none;-webkit-user-select:none}
+.sheet svg{display:block;width:100%;height:auto;touch-action:none}
+.hint{position:absolute;left:0;right:0;bottom:14px;text-align:center;font-family:"Geist Mono",ui-monospace,monospace;font-size:12.5px;color:var(--muted);pointer-events:none;transition:opacity .6s}
+.hint.gone{opacity:0}
+.actions{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:14px;font-family:"Geist Mono",ui-monospace,monospace;font-size:12.5px}
+.actions button{font:inherit;color:var(--muted);background:none;border:0;border-bottom:1px solid var(--line);padding:0 0 1px;cursor:pointer;transition:color .2s,border-color .2s}
+.actions button:hover{color:var(--ink);border-color:var(--ink)}
+.actions .tag{color:var(--faint);opacity:0;transition:opacity .3s}
+.actions .tag.on{opacity:1}
+.note{margin-top:34px;margin-bottom:64px;color:var(--muted);font-size:15.5px;max-width:56ch}
+
+.handle{cursor:grab}
+.handle:active{cursor:grabbing}
+.ring{fill:var(--bg);stroke:var(--ink);stroke-width:2}
+.pulse{fill:none;stroke:var(--ink);stroke-width:1.2;opacity:0}
+.show-pulse .pulse{animation:pulse 2s ease-out 3}
+@keyframes pulse{0%{r:11;opacity:.6}100%{r:30;opacity:0}}
+.link{stroke:var(--ink);stroke-width:3.2;stroke-linecap:round;fill:none}
+.pencil-arm{stroke:var(--ink);stroke-width:1.2;fill:none;opacity:.55}
+.ground{stroke:var(--muted);stroke-width:1.4;fill:none}
+.lbl{font-family:"Geist Mono",ui-monospace,monospace;font-size:10.5px;fill:var(--faint)}
+@media (prefers-reduced-motion:reduce){.show-pulse .pulse{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a href="/" class="back">&larr; vaibhav</a>
+    <div class="controls">
+      <button id="theme" class="icon-btn" type="button" aria-label="toggle theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <h1>mechanical pencil</h1>
+      <p>a four-bar linkage with a pencil on the end of one bar.</p>
+    </div>
+
+    <div class="sheet" id="sheet">
+      <svg id="svg" viewBox="0 0 640 520" role="img" aria-label="A four-bar linkage on graph paper. Drag the crank to draw a curve.">
+        <defs>
+          <pattern id="g1" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0H0V10" fill="none" stroke="var(--grid)" stroke-width="1"/></pattern>
+          <pattern id="g5" width="50" height="50" patternUnits="userSpaceOnUse"><rect width="50" height="50" fill="url(#g1)"/><path d="M50 0H0V50" fill="none" stroke="var(--grid2)" stroke-width="1"/></pattern>
+        </defs>
+        <rect width="640" height="520" fill="url(#g5)"/>
+        <g id="ghosts"></g>
+        <path id="preview" fill="none" stroke="var(--ghost)" stroke-width="1.4" stroke-dasharray="3 5"/>
+        <path id="trace" fill="none" stroke="var(--trace)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <g id="mech">
+          <path id="gA" class="ground"/><path id="gD" class="ground"/>
+          <line id="lBase" class="ground" stroke-dasharray="2 5"/>
+          <line id="lCrank" class="link"/>
+          <line id="lCoup" class="link"/>
+          <line id="lRock" class="link"/>
+          <path id="arm" class="pencil-arm"/>
+          <circle id="jB" class="ring" r="5"/>
+          <circle id="jC" class="ring" r="5"/>
+          <g id="hA" class="handle show-pulse-host"><circle class="pulse" r="11"/><circle class="ring" r="7"/><circle r="22" fill="transparent"/></g>
+          <g id="hD" class="handle"><circle class="pulse" r="11"/><circle class="ring" r="7"/><circle r="22" fill="transparent"/></g>
+          <g id="hK" class="handle"><circle r="9" fill="var(--ink)"/><circle r="26" fill="transparent"/></g>
+          <circle id="tip" r="5.5" fill="var(--pencil)"/>
+        </g>
+      </svg>
+      <div class="hint" id="hint">turn the crank</div>
+    </div>
+
+    <div class="actions">
+      <button id="keep" type="button">keep this drawing</button>
+      <button id="share" type="button">share this machine</button>
+      <button id="clear" type="button">clear</button>
+      <span class="tag" id="tag"></span>
+    </div>
+
+    <p class="note">the red dot is the pencil. the two open circles are the fixed pivots, so you can move them. the faint dashed line shows where the pencil will go next. older drawings stay behind, faintly.</p>
+  </main>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var q=new URLSearchParams(location.search);
+  var theme=q.get('theme')||localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+  function applyTheme(){
+    if(theme==='dark'){root.setAttribute('data-theme','dark')}else{root.removeAttribute('data-theme')}
+    localStorage.setItem('theme',theme);
+  }
+  document.getElementById('theme').onclick=function(){theme=theme==='dark'?'light':'dark';applyTheme()};
+  applyTheme();
+
+  var NS='http://www.w3.org/2000/svg';
+  var W=640,H=520;
+  var svg=document.getElementById('svg');
+  function $(id){return document.getElementById(id)}
+
+  // fixed link lengths (the machine). Only the two ground pivots move.
+  var R1=80, L2=160, L3=140;      // crank, coupler, rocker
+  var PU=140, PV=80;             // pencil position in the coupler frame
+  var A={x:215,y:280}, D={x:425,y:280};
+  var theta=-2.2;                 // crank angle
+  var C=null;                     // coupler/rocker joint, kept for branch continuity
+  var cur=[], ghosts=[], MAXG=3;
+  var spinning=false, dragging=null, moved=false, usedOnce=false;
+
+  // restore a shared machine
+  (function(){
+    var m=/m=(-?\d+),(-?\d+),(-?\d+),(-?\d+)/.exec(location.hash);
+    if(m){
+      var a={x:+m[1],y:+m[2]}, d={x:+m[3],y:+m[4]};
+      if(inBounds(a)&&inBounds(d)&&solve(a,d,theta)){A=a;D=d}
+    }
+  })();
+
+  function inBounds(p){return p.x>=20&&p.x<=W-20&&p.y>=20&&p.y<=H-20}
+
+  // returns {B,C,P} or null when the linkage cannot close at this crank angle
+  function solve(a,d,t,prevC){
+    var B={x:a.x+R1*Math.cos(t), y:a.y+R1*Math.sin(t)};
+    var dx=d.x-B.x, dy=d.y-B.y, dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist>L2+L3-0.5||dist<Math.abs(L2-L3)+0.5||dist<1e-6) return null;
+    var aa=(L2*L2-L3*L3+dist*dist)/(2*dist);
+    var hh=Math.sqrt(Math.max(0,L2*L2-aa*aa));
+    var mx=B.x+aa*dx/dist, my=B.y+aa*dy/dist;
+    var c1={x:mx+hh*dy/dist, y:my-hh*dx/dist};
+    var c2={x:mx-hh*dy/dist, y:my+hh*dx/dist};
+    var pc=prevC||C, Cn;
+    if(pc){
+      var d1=(c1.x-pc.x)*(c1.x-pc.x)+(c1.y-pc.y)*(c1.y-pc.y);
+      var d2=(c2.x-pc.x)*(c2.x-pc.x)+(c2.y-pc.y)*(c2.y-pc.y);
+      Cn=d1<=d2?c1:c2;
+    } else { Cn=c1.y<=c2.y?c1:c2; } // elbow up
+    var ex=(Cn.x-B.x)/L2, ey=(Cn.y-B.y)/L2;
+    var P={x:B.x+PU*ex-PV*ey, y:B.y+PU*ey+PV*ex};
+    return {B:B,C:Cn,P:P};
+  }
+
+  function setLine(el,p,q){el.setAttribute('x1',p.x);el.setAttribute('y1',p.y);el.setAttribute('x2',q.x);el.setAttribute('y2',q.y)}
+  function at(el,p){el.setAttribute('transform','translate('+p.x+' '+p.y+')')}
+  function hatch(p){ // little ground symbol under a pivot
+    return 'M'+(p.x-14)+' '+(p.y+16)+'H'+(p.x+14)+'M'+(p.x-14)+' '+(p.y+16)+'l-5 7M'+(p.x-5)+' '+(p.y+16)+'l-5 7M'+(p.x+4)+' '+(p.y+16)+'l-5 7M'+(p.x+13)+' '+(p.y+16)+'l-5 7M'+p.x+' '+(p.y+7)+'V'+(p.y+16);
+  }
+
+  function path(pts,close){
+    if(!pts.length) return '';
+    var s='M'+pts[0].x.toFixed(1)+' '+pts[0].y.toFixed(1);
+    for(var i=1;i<pts.length;i++) s+='L'+pts[i].x.toFixed(1)+' '+pts[i].y.toFixed(1);
+    return close?s+'Z':s;
+  }
+
+  // the whole curve for the current pivots, for the dashed preview
+  function fullCurve(a,d){
+    var pts=[], prev=C, any=false, N=240;
+    for(var i=0;i<=N;i++){
+      var t=theta+i/N*Math.PI*2;
+      var s=solve(a,d,t,prev);
+      if(!s){ if(any){ } continue; }
+      prev=s.C; pts.push(s.P); any=true;
+    }
+    return pts;
+  }
+
+  function draw(){
+    var s=solve(A,D,theta,C)||solve(A,D,theta,null);
+    if(!s) return;
+    C=s.C;
+    setLine($('lCrank'),A,s.B); setLine($('lCoup'),s.B,s.C); setLine($('lRock'),s.C,D); setLine($('lBase'),A,D);
+    $('arm').setAttribute('d','M'+s.B.x+' '+s.B.y+'L'+s.P.x+' '+s.P.y+'L'+s.C.x+' '+s.C.y);
+    at($('jB'),s.B); at($('jC'),s.C); at($('hA'),A); at($('hD'),D); at($('hK'),s.B); at($('tip'),s.P);
+    $('gA').setAttribute('d',hatch(A)); $('gD').setAttribute('d',hatch(D));
+    $('trace').setAttribute('d',path(cur));
+    return s;
+  }
+
+  function drawPreview(){
+    $('preview').setAttribute('d',path(fullCurve(A,D)));
+  }
+  function drawGhosts(){
+    var g=$('ghosts'); g.innerHTML='';
+    ghosts.forEach(function(pts,i){
+      var p=document.createElementNS(NS,'path');
+      p.setAttribute('d',path(pts)); p.setAttribute('fill','none');
+      p.setAttribute('stroke','var(--ink)'); p.setAttribute('stroke-width','1.5');
+      p.setAttribute('stroke-linecap','round'); p.setAttribute('stroke-linejoin','round');
+      p.setAttribute('opacity', i===0?0.24:0.12);
+      g.appendChild(p);
+    });
+  }
+
+  function mark(P){
+    var l=cur[cur.length-1];
+    if(!l||Math.abs(l.x-P.x)+Math.abs(l.y-P.y)>0.8) cur.push({x:P.x,y:P.y});
+    if(cur.length>4000) cur.shift();
+  }
+  function hideHint(){ $('hint').classList.add('gone') }
+
+  function setTheta(t){
+    var s=solve(A,D,t,C);
+    if(!s) return false;
+    theta=t; C=s.C; mark(s.P); return true;
+  }
+
+  // tap anywhere on the paper: turn the crank once
+  var spinTimer=null;
+  function spin(){
+    if(spinning) return;
+    spinning=true; hideHint(); usedOnce=true;
+    var dir=1, last=performance.now(), total=0, target=Math.PI*2, ttl=2600, start=last;
+    // first mark right away
+    var first=solve(A,D,theta,C); if(first) mark(first.P);
+    function step(now){
+      var dt=Math.min(40,now-last); last=now;
+      var dth=dir*dt/1000*2.9;
+      var nt=theta+dth;
+      if(!setTheta(nt)){ dir=-dir; }
+      else total+=Math.abs(dth);
+      draw();
+      if(total<target && now-start<ttl && spinning) requestAnimationFrame(step);
+      else { spinning=false; pulsePivots(); }
+    }
+    requestAnimationFrame(step);
+  }
+  function pulsePivots(){
+    if(pulsed) return; pulsed=true;
+    $('hA').classList.add('show-pulse'); $('hD').classList.add('show-pulse');
+  }
+  var pulsed=false;
+
+  function toSvg(e){
+    var r=svg.getBoundingClientRect();
+    return {x:(e.clientX-r.left)*W/r.width, y:(e.clientY-r.top)*H/r.height};
+  }
+
+  var hitFor={hK:'crank',hA:'A',hD:'D'};
+  function targetOf(e){
+    var n=e.target;
+    while(n&&n!==svg){ if(n.id&&hitFor[n.id]) return hitFor[n.id]; n=n.parentNode; }
+    return null;
+  }
+
+  svg.addEventListener('pointerdown',function(e){
+    var who=targetOf(e);
+    var p=toSvg(e);
+    if(spinning){ spinning=false; }
+    dragging=who||'tap'; moved=false;
+    svg.setPointerCapture(e.pointerId);
+    if(who==='crank'){ hideHint(); usedOnce=true; var s=solve(A,D,theta,C); if(s) mark(s.P); }
+    if(who==='A'||who==='D'){
+      // the first drawing stays behind, faint
+      if(cur.length>2){ ghosts.push(cur); if(ghosts.length>MAXG) ghosts.shift(); cur=[]; drawGhosts(); }
+    }
+    dragStart=p; e.preventDefault();
+  });
+  var dragStart=null;
+  svg.addEventListener('pointermove',function(e){
+    if(!dragging||dragging==='tap') { if(dragging==='tap'&&dragStart){ var q2=toSvg(e); if(Math.abs(q2.x-dragStart.x)+Math.abs(q2.y-dragStart.y)>6) moved=true; } return; }
+    var p=toSvg(e); moved=true;
+    if(dragging==='crank'){
+      var ang=Math.atan2(p.y-A.y,p.x-A.x);
+      var d=ang-theta; d=Math.atan2(Math.sin(d),Math.cos(d));
+      // advance in small steps so the trace stays smooth and the limits stop the crank
+      var n=Math.max(1,Math.ceil(Math.abs(d)/0.05)), st=d/n;
+      for(var i=0;i<n;i++){ if(!setTheta(theta+st)) break; }
+      draw();
+    } else {
+      var np={x:Math.max(20,Math.min(W-20,p.x)), y:Math.max(20,Math.min(H-20,p.y))};
+      var a=dragging==='A'?np:A, dd=dragging==='D'?np:D;
+      // keep the pivots apart and the linkage closed at the current crank angle
+      if(Math.hypot(a.x-dd.x,a.y-dd.y)>60 && solve(a,dd,theta,C)){
+        if(dragging==='A') A=np; else D=np;
+        draw(); drawPreview();
+      }
+    }
+  });
+  function end(e){
+    if(!dragging) return;
+    var was=dragging; dragging=null;
+    if(was==='tap' && !moved) spin();
+    if(was==='A'||was==='D'){ $('hint').classList.add('gone'); }
+  }
+  svg.addEventListener('pointerup',end);
+  svg.addEventListener('pointercancel',end);
+
+  // clear
+  $('clear').onclick=function(){ cur=[]; ghosts=[]; drawGhosts(); draw(); drawPreview(); };
+
+  // keep this drawing: a small SVG print
+  function esc(n){return n.toFixed(1)}
+  function printSvg(){
+    var pts=cur.length>2?cur:fullCurve(A,D);
+    var minx=1e9,maxx=-1e9,miny=1e9,maxy=-1e9;
+    pts.forEach(function(p){minx=Math.min(minx,p.x);maxx=Math.max(maxx,p.x);miny=Math.min(miny,p.y);maxy=Math.max(maxy,p.y)});
+    var PW=600,PH=800, bx=40,by=40,bw=520,bh=520;
+    var w=Math.max(maxx-minx,1), h=Math.max(maxy-miny,1);
+    var k=Math.min(bw/w,bh/h);
+    var ox=bx+(bw-w*k)/2-minx*k, oy=by+(bh-h*k)/2-miny*k;
+    var curve='M'+pts.map(function(p){return esc(p.x*k+ox)+' '+esc(p.y*k+oy)}).join('L');
+    // linkage at the pose the crank is in now, fitted into the lower strip
+    var s=solve(A,D,theta,C);
+    var jp=[A,D,s.B,s.C,s.P];
+    var lx0=Math.min.apply(null,jp.map(function(p){return p.x})), lx1=Math.max.apply(null,jp.map(function(p){return p.x}));
+    var ly0=Math.min.apply(null,jp.map(function(p){return p.y})), ly1=Math.max.apply(null,jp.map(function(p){return p.y}));
+    var sw=lx1-lx0, sh=ly1-ly0, kk=Math.min(300/sw,120/sh), qx=PW/2-sw*kk/2-lx0*kk, qy=620+(120-sh*kk)/2-ly0*kk;
+    function T(p){return {x:p.x*kk+qx,y:p.y*kk+qy}}
+    var a=T(A),d=T(D),b=T(s.B),c=T(s.C),pp=T(s.P);
+    function ln(p,q){return '<line x1="'+esc(p.x)+'" y1="'+esc(p.y)+'" x2="'+esc(q.x)+'" y2="'+esc(q.y)+'"/>'}
+    function dot(p,r){return '<circle cx="'+esc(p.x)+'" cy="'+esc(p.y)+'" r="'+r+'"/>'}
+    var out='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+PW+' '+PH+'" width="'+PW+'" height="'+PH+'">'
+      +'<rect width="'+PW+'" height="'+PH+'" fill="#faf9f6"/>'
+      +'<path d="'+curve+'" fill="none" stroke="#1b1a17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+      +'<g stroke="#1b1a17" stroke-width="1.6" stroke-linecap="round" fill="none">'+ln(a,b)+ln(b,c)+ln(c,d)+'<path d="M'+esc(b.x)+' '+esc(b.y)+'L'+esc(pp.x)+' '+esc(pp.y)+'L'+esc(c.x)+' '+esc(c.y)+'" stroke-width="0.8" opacity=".5"/></g>'
+      +'<g fill="#faf9f6" stroke="#1b1a17" stroke-width="1.6">'+dot(a,4)+dot(d,4)+dot(b,3)+dot(c,3)+'</g>'
+      +'<g fill="#d92a1c">'+dot(pp,3.6)+'</g>'
+      +'<text x="'+(PW/2)+'" y="770" text-anchor="middle" font-family="monospace" font-size="11" fill="#6f6d66">mechanical pencil · vaibhav11123.github.io/mechanical-pencil</text>'
+      +'</svg>';
+    return out;
+  }
+  function tell(msg){
+    var t=$('tag'); t.textContent=msg; t.classList.add('on');
+    clearTimeout(tell.h); tell.h=setTimeout(function(){t.classList.remove('on')},2200);
+  }
+  $('keep').onclick=function(){
+    var blob=new Blob([printSvg()],{type:'image/svg+xml'});
+    var url=URL.createObjectURL(blob), a=document.createElement('a');
+    a.href=url; a.download='mechanical-pencil.svg'; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){URL.revokeObjectURL(url)},1000);
+    tell('saved as svg');
+  };
+
+  // share link: pivot positions live in the hash
+  function shareUrl(){
+    return location.origin+location.pathname+'#m='+[A.x,A.y,D.x,D.y].map(Math.round).join(',');
+  }
+  $('share').onclick=function(){
+    var u=shareUrl();
+    history.replaceState(null,'',u.slice(location.origin.length));
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(u).then(function(){tell('link copied')},function(){tell('link is in the address bar')});
+    } else tell('link is in the address bar');
+  };
+
+  window.__mp={get:function(){return {A:A,D:D,theta:theta,n:cur.length,g:ghosts.length}},spin:spin};
+
+  draw(); drawPreview();
+  if(location.hash.indexOf('m=')>-1) $('hint').textContent='turn the crank';
+})();
+</script>
+</body>
+</html>
