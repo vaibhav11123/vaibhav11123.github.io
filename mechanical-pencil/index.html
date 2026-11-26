@@ -40,8 +40,8 @@ a{color:inherit}
 h1{font-weight:600;font-size:44px;letter-spacing:-.01em;line-height:1.05}
 .hero p{margin-top:14px;color:var(--body);max-width:52ch}
 
-.sheet{position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg);touch-action:none;user-select:none;-webkit-user-select:none}
-.sheet svg{display:block;width:100%;height:auto;touch-action:none}
+.sheet{position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg);touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.sheet svg{display:block;width:100%;height:auto;touch-action:pan-y}
 .hint{position:absolute;left:0;right:0;bottom:14px;text-align:center;font-family:"Geist Mono",ui-monospace,monospace;font-size:12.5px;color:var(--muted);pointer-events:none;transition:opacity .6s}
 .hint.gone{opacity:0}
 .actions{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:14px;font-family:"Geist Mono",ui-monospace,monospace;font-size:12.5px}
@@ -283,6 +283,8 @@ h1{font-weight:600;font-size:44px;letter-spacing:-.01em;line-height:1.05}
     return null;
   }
 
+  // fingers on a handle move the machine; anywhere else the page can still scroll
+  svg.addEventListener('touchstart',function(e){ if(targetOf(e)) e.preventDefault(); },{passive:false});
   svg.addEventListener('pointerdown',function(e){
     var who=targetOf(e);
     var p=toSvg(e);
@@ -294,7 +296,7 @@ h1{font-weight:600;font-size:44px;letter-spacing:-.01em;line-height:1.05}
       // the first drawing stays behind, faint
       if(cur.length>2){ ghosts.push(cur); if(ghosts.length>MAXG) ghosts.shift(); cur=[]; drawGhosts(); }
     }
-    dragStart=p; e.preventDefault();
+    dragStart=p; if(who) e.preventDefault();
   });
   var dragStart=null;
   svg.addEventListener('pointermove',function(e){
