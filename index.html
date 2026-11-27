@@ -68,6 +68,8 @@ h1{font-weight:600;font-size:52px;letter-spacing:-.01em;line-height:1.04}
 .step .shot.f{aspect-ratio:1000/235}
 .step .shot img{display:block;width:100%;height:auto;margin-top:-34%}
 .scap{margin-top:10px;font-size:15.5px;color:var(--muted);min-height:3.2em}
+#wdstep .scap{min-height:0}
+#wdstep+.pl{margin-top:8px}
 .cx{margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:14px 10px 10px;background:var(--bg)}
 .cs{display:block;width:100%;height:auto;color:var(--ink)}
 .cs line,.cs polyline,.cs rect,.cs circle{stroke-width:3.2px}
@@ -326,7 +328,7 @@ html[data-view=agent] .agent-url::before{content:" "}
     </div>
 
     <section class="enter">
-      <div class="label">projects<span class="hint">click a figure to look closer</span></div>
+      <div class="label">projects</div>
       <ol class="plist">
 
         <li class="p">
@@ -338,7 +340,7 @@ html[data-view=agent] .agent-url::before{content:" "}
               <div class="tabs"><button class="on" type="button" data-i="0">healthy</button><button type="button" data-i="1">search-api fails</button></div>
               <div class="shot"><img id="wdimg" src="assets/1-wd-seq-healthy.webp" width="1000" height="712" alt="MCP Watchdog overview in VS Code with all three servers healthy"></div>
               <p class="scap" id="wdcap">three servers answered the probe.</p>
-              <p class="scap" style="margin-top:2px;font-family:'Geist Mono',ui-monospace,monospace;font-size:12px;color:var(--faint)">screen capture in vs code, test servers, one made to fail</p>
+              <p class="scap" style="margin-top:4px;font-family:'Geist Mono',ui-monospace,monospace;font-size:12px;color:var(--faint)">screen capture in vs code, test servers, one made to fail</p>
             </div>
             <div class="pl">
               <a href="https://github.com/vaibhav11123/mcp-watchdog">github ↗<span class="agent-only agent-url">https://github.com/vaibhav11123/mcp-watchdog</span></a>
@@ -357,7 +359,7 @@ html[data-view=agent] .agent-url::before{content:" "}
           <span class="idx">02</span>
           <div class="pbody">
             <div class="ph"><h3><a href="https://github.com/vaibhav11123/jax-transformer-vlad">jax moe kernel</a></h3><span class="when">2026</span></div>
-            <p class="px">1.21x faster for the projection step and 1.09x for the full forward pass, as timed on a tpu v5e. a fused mixture-of-experts kernel in jax pallas, written for a tpu v5e as part of vlad feinberg's frontier-lab roadmap. fusing the projections keeps the intermediate on-chip instead of round-tripping through memory. the repo also holds a digit-addition transformer built from scratch, scaling-law sweeps, and recorded walkthroughs of the core build. flip the toggle to see what changes.</p>
+            <p class="px">1.21x faster for the projection step and 1.09x for the full forward pass, as timed on a tpu v5e. a fused mixture-of-experts kernel in jax pallas: fusing the projections keeps the intermediate on-chip instead of round-tripping through memory.</p>
                         <div class="fuse">
               <input type="checkbox" id="fuse-tgl" class="fuse-input" aria-label="toggle between unfused and fused kernel diagram">
               <div class="fuse-bar">
@@ -371,7 +373,7 @@ html[data-view=agent] .agent-url::before{content:" "}
                 <div class="nm">full forward (includes sort and restore)</div>
                 <div><span class="u">unfused 0.432 ms</span> &middot; <span class="f">fused 0.396 ms</span> &middot; <span class="x">1.09x</span></div>
               </div>
-              <div class="fuse-src">numbers are real: recorded on tpu v5e, median of 50 runs, from the benchmarks on my cv</div>
+              <div class="fuse-src">tpu v5e · 8,192 tokens · bf16 · median of 50 runs · <a href="https://github.com/vaibhav11123/jax-transformer-vlad/blob/main/moe_pallas/figures/latency_closeout.png" style="color:inherit;text-underline-offset:3px">recorded figure ↗</a></div>
             </div>
 <div class="pl">
               <a href="https://github.com/vaibhav11123/jax-transformer-vlad">github ↗<span class="agent-only agent-url">https://github.com/vaibhav11123/jax-transformer-vlad</span></a>
@@ -380,6 +382,7 @@ html[data-view=agent] .agent-url::before{content:" "}
               <button class="details-btn" data-details="d-jax" type="button">details +</button>
             </div>
             <ul class="details" id="d-jax">
+              <li>written for a tpu v5e as part of vlad feinberg's frontier-lab roadmap. the repo also holds a digit-addition transformer built from scratch, scaling-law sweeps, and recorded walkthroughs of the core build</li>
               <li>timed on a colab tpu v5e with jax 0.11.2: 8,192 tokens, 256 experts, bf16, median of 50 runs after 10 warm-up runs, against jax.lax.ragged_dot</li>
               <li>the repo's requirements.txt pins jax 0.10.2 for the training code, so the benchmark needs its own 0.11.2 environment</li>
               <li>to run it, from the repo:<pre class="cmd">python -m moe_pallas.benchmark \
@@ -422,22 +425,21 @@ html[data-view=agent] .agent-url::before{content:" "}
 
       </ol>
 
-      <div class="label" style="margin-top:56px">everything else<span class="hint">the rest, filterable</span></div>
-      <div class="filters" id="filters">
-        <button class="on" data-f="all" type="button">all</button><span class="sep"> / </span><button data-f="ai" type="button">ai + infra</button><span class="sep"> / </span><button data-f="tools" type="button">dev tools</button><span class="sep"> / </span><button data-f="data" type="button">data + ml</button><span class="sep"> / </span><button data-f="web" type="button">web</button><span class="sep"> / </span><button data-f="exp" type="button">experiments</button>
-      </div>
-      <ol class="also" id="archive">
-        <li class="row" data-tags="ai"><span><span class="co">wardyn</span><span class="role">llm governance control plane · client project · private repo</span></span><span class="d">2026</span></li>
-        <li class="row" data-tags="data web"><span><span class="co"><a href="https://github.com/vaibhav11123/Hublet-ALPS">hublet / disa</a></span><span class="role">real-estate price analytics: scraping, ml models, resnet-50 on listing photos, flask api + next.js</span></span><span class="d">2025 – 26</span></li>
-        <li class="row" data-tags="tools ai"><span><span class="co"><a href="https://github.com/vaibhav11123/claude-knowledge-vault">claude knowledge vault</a></span><span class="role">turns claude.ai exports into an entity-linked obsidian vault</span></span><span class="d">2026</span></li>
-        <li class="row" data-tags="web"><span><span class="co"><a href="https://github.com/vaibhav11123/eterna-meme-coin-aggregator">eterna</a></span><span class="role">real-time solana meme-coin aggregator, websocket under 200ms median · <a href="https://youtu.be/G21dH75YuZU">demo video</a></span></span><span class="d">2025</span></li>
-        <li class="row" data-tags="ai tools"><span><span class="co"><a href="https://github.com/vaibhav11123/coldemail-outreach-system">cold outreach system</a></span><span class="role">cold-email infrastructure with strict data normalization</span></span><span class="d">2026</span></li>
-        <li class="row" data-tags="data"><span><span class="co"><a href="https://github.com/vaibhav11123/noida-pg-pipeline">pg pipeline</a></span><span class="role">4-phase etl: exa neural search + google maps grid scraping for pg listings</span></span><span class="d">2026</span></li>
-        <li class="row" data-tags="exp web"><span><span class="co"><a href="https://github.com/vaibhav11123/disputepoint-ship">disputepoint</a></span><span class="role">delhi waterlogging incident coordination · wemakedevs environmental hacks</span></span><span class="d">2026</span></li>
-        <li class="row" data-tags="exp tools"><span><span class="co"><a href="https://github.com/vaibhav11123/mcl431-circuits">sequence circuit</a></span><span class="role">yaml spec in, exam-style hydraulic / electropneumatic sheets out · iit delhi course</span></span><span class="d">2026</span></li>
-        <li class="row" data-tags="data"><span><span class="co"><a href="https://github.com/vaibhav11123/ipl-analytics">ipl analytics</a></span><span class="role">t20 cricket analysis notebooks</span></span><span class="d">2025</span></li>
-        <li class="row" data-tags="data"><span><span class="co"><a href="https://github.com/vaibhav11123/Loan-Default-Modeling">loan default modeling</a></span><span class="role">predicting loan defaults, kaggle dataset</span></span><span class="d">2025</span></li>
-        <li class="row" data-tags="exp"><span><span class="co">rivrank</span><span class="role">graph-based river ranking · b.tech research · private repo</span></span><span class="d">2026 –</span></li>
+      <ol class="also" style="margin-top:22px">
+        <li class="row"><span><span class="co"><a href="https://github.com/vaibhav11123/mcl431-circuits">sequence circuit</a></span><span class="role">yaml spec in, exam-style hydraulic / electropneumatic sheets out · iit delhi course</span></span><span class="d">2026</span></li>
+        <li class="row"><span><span class="co">rivrank</span><span class="role">ranking reaches in river networks with a directed graph model, scored on 252 held-out mekong queries and confirmed on ten more networks · b.tech research · private repo</span></span><span class="d">2026 –</span></li>
+        <li class="row"><span><span class="co"><a href="https://github.com/vaibhav11123/Hublet-ALPS">hublet / disa</a></span><span class="role">real-estate price analytics: scraping, ml models, resnet-50 on listing photos, flask api + next.js</span></span><span class="d">2025 – 26</span></li>
+      </ol>
+      <div class="filters"><button type="button" id="allbtn" aria-expanded="false">everything else +</button></div>
+      <ol class="also" id="archive" hidden>
+        <li class="row"><span><span class="co">wardyn</span><span class="role">llm governance control plane · client project · private repo</span></span><span class="d">2026</span></li>
+        <li class="row"><span><span class="co"><a href="https://github.com/vaibhav11123/claude-knowledge-vault">claude knowledge vault</a></span><span class="role">turns claude.ai exports into an entity-linked obsidian vault</span></span><span class="d">2026</span></li>
+        <li class="row"><span><span class="co"><a href="https://github.com/vaibhav11123/eterna-meme-coin-aggregator">eterna</a></span><span class="role">real-time solana meme-coin aggregator, websocket under 200ms median · <a href="https://youtu.be/G21dH75YuZU">demo video</a></span></span><span class="d">2025</span></li>
+        <li class="row"><span><span class="co"><a href="https://github.com/vaibhav11123/coldemail-outreach-system">cold outreach system</a></span><span class="role">cold-email infrastructure with strict data normalization</span></span><span class="d">2026</span></li>
+        <li class="row"><span><span class="co"><a href="https://github.com/vaibhav11123/noida-pg-pipeline">pg pipeline</a></span><span class="role">4-phase etl: exa neural search + google maps grid scraping for pg listings</span></span><span class="d">2026</span></li>
+        <li class="row"><span><span class="co"><a href="https://github.com/vaibhav11123/disputepoint-ship">disputepoint</a></span><span class="role">delhi waterlogging incident coordination · wemakedevs environmental hacks</span></span><span class="d">2026</span></li>
+        <li class="row"><span><span class="co"><a href="https://github.com/vaibhav11123/ipl-analytics">ipl analytics</a></span><span class="role">t20 cricket analysis notebooks</span></span><span class="d">2025</span></li>
+        <li class="row"><span><span class="co"><a href="https://github.com/vaibhav11123/Loan-Default-Modeling">loan default modeling</a></span><span class="role">predicting loan defaults, kaggle dataset</span></span><span class="d">2025</span></li>
       </ol>
     </section>
 
@@ -609,21 +611,8 @@ html[data-view=agent] .agent-url::before{content:" "}
     };
   });
 
-  // archive filters
-  var fbtns=document.querySelectorAll('#filters button');
-  Array.prototype.forEach.call(fbtns,function(btn){
-    btn.onclick=function(){
-      Array.prototype.forEach.call(fbtns,function(x){x.classList.remove('on')});
-      btn.classList.add('on');
-      var f=btn.getAttribute('data-f');
-      Array.prototype.forEach.call(document.querySelectorAll('#archive .row'),function(r){
-        var tags=(r.getAttribute('data-tags')||'').split(' ');
-        r.classList.toggle('hide',f!=='all'&&tags.indexOf(f)===-1);
-      });
-    };
-  });
-
-  
+  var ab=document.getElementById('allbtn'),ar=document.getElementById('archive');
+  if(ab&&ar){ab.onclick=function(){var o=ar.hidden;ar.hidden=!o;ab.setAttribute('aria-expanded',o?'true':'false');ab.textContent=o?'everything else \u2212':'everything else +';};}
   (function(){
     var f=['assets/1-wd-seq-healthy.webp','assets/1-wd-seq-fail.webp'];
     var alt=['MCP Watchdog overview in VS Code with all three servers healthy','MCP Watchdog overview in VS Code: search-api retrying after the process closed the connection'];
@@ -686,7 +675,7 @@ html[data-view=agent] .agent-url::before{content:" "}
   ['theme','v-human','v-agent'].forEach(function(id){document.getElementById(id).addEventListener('click',function(){setTimeout(tick,10)})});
 
   if(q.get('fuse')){var ft=document.getElementById('fuse-tgl');if(ft)ft.checked=true;}
-  if(q.get('f')){var fb=document.querySelector('#filters button[data-f="'+q.get('f')+'"]');if(fb)fb.click();}
+  
   apply();
 })();
 
